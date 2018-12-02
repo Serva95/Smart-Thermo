@@ -31,7 +31,7 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
         try {
             //WHERE date LIKE '2018-11-16%' OR date LIKE '2018-11-15%' order by date desc limit 150
             String sql = " SELECT * FROM"
-                    + " (SELECT temp, hum, date FROM `temps` WHERE date LIKE ? OR date LIKE ? ORDER BY date DESC LIMIT 100)"
+                    + " (SELECT temp, hum, date FROM temps WHERE date LIKE ? OR date LIKE ? ORDER BY date DESC LIMIT 100)"
                     + " AS tmps ORDER BY date";
             
             ps = conn.prepareStatement(sql);
@@ -62,18 +62,21 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
         Lettura[] lettiarray;
         try {
             //WHERE date LIKE '2018-11-16%' OR date LIKE '2018-11-15%' order by date desc limit 150
-            String sql = " SELECT * FROM"
+            /*String sql = " SELECT * FROM"
                     + " (SELECT mediumtemp, mediumhum, mediumDay FROM `mediums` ORDER BY mediumDay DESC LIMIT ? )"
-                    + " AS tmp ORDER BY mediumDay ";
-            
-            ps = conn.prepareStatement(sql);
-            int i = 1;
-            ps.setInt(i++, number_of_reads);
-            
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Lettura tmp = readmediums(rs);
-                    letti.add(tmp);
+                    + " AS tmp ORDER BY mediumDay ";*/
+            for(int j = number_of_reads-1; j>=0; j--){
+                String sql = "SELECT AVG(temp) AS temp, AVG(hum) AS hum, MIN(date) AS date FROM temps WHERE date LIKE ? ";
+                
+                ps = conn.prepareStatement(sql);
+                int i = 1;
+                ps.setString(i++, LocalDate.now().minusDays(j).toString() + "%");
+                
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Lettura tmp = readmediums(rs);
+                        letti.add(tmp);
+                    }
                 }
             }
             lettiarray = new Lettura[letti.size()];
@@ -95,27 +98,31 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
             lett.setHum(rs.getDouble("hum"));
         } catch (SQLException sqle) {}
         
-        try {
-            lett.setReadingdatetime(LocalDateTime.parse(rs.getString("date").substring(0, 19).replaceFirst(" ", "T"), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            //ofPattern("yyyy-MM-dd HH:mm:ss")
-        } catch (SQLException sqle) {}
+        lett.setReadingdatetime(readdatetimesql(rs));
+        
         return lett;
+    }
+    
+    LocalDateTime readdatetimesql(ResultSet rs){
+        LocalDateTime toret = null;
+        try {
+            toret = LocalDateTime.parse(rs.getString("date").substring(0, 19).replaceFirst(" ", "T"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (SQLException sqle) {}
+        return toret;
     }
     
     Lettura readmediums (ResultSet rs){
         Lettura lett = new Lettura();
         try {
-            lett.setTemp(rs.getDouble("mediumtemp"));
+            lett.setTemp((double)Math.round(rs.getDouble("temp")*100)/100);
         } catch (SQLException sqle) {}
         
         try {
-            lett.setHum(rs.getDouble("mediumhum"));
+            lett.setHum((double)Math.round(rs.getDouble("hum")*100)/100);
         } catch (SQLException sqle) {}
         
-        try {
-            lett.setReadingdatetime(LocalDate.parse(rs.getString("mediumDay"), DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay());
-            //ofPattern("yyyy-MM-dd HH:mm:ss")
-        } catch (SQLException sqle) {}
+        lett.setReadingdatetime(readdatetimesql(rs));
+        
         return lett;
     }
     

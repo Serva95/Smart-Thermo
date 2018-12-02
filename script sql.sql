@@ -10,12 +10,3 @@ CREATE TABLE IF NOT EXISTS temps (
 	thermoId INT(10) NULL DEFAULT NULL ,
 	PRIMARY KEY (measureId)
 	) ENGINE = InnoDB DEFAULT CHARSET = utf8;
-	
-CREATE TABLE IF NOT EXISTS mediums (
-	mediumDay DATE NOT NULL ,
-	mediumtemp DOUBLE NOT NULL,
-	mediumhum DOUBLE NOT NULL,
-	measurenumber SMALLINT(3) NOT NULL,
-	thermoId INT(10) NULL DEFAULT NULL ,
-	PRIMARY KEY (mediumDay)
-	) ENGINE = InnoDB DEFAULT CHARSET = utf8;
