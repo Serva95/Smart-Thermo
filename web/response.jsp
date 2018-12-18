@@ -23,7 +23,7 @@
                   <div class="12u">
                       <section class="box">
                           <%=applicationMessage%>
-                          <h3><a href='/Smart_Thermo/Connector'>Clicca qui per tornare alla home</a></h3>
+                          <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
                       </section>
                   </div>
               </div>

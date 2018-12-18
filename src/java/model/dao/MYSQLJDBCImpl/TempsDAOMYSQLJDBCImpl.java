@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import model.dao.TempsDAO;
 import model.mo.Lettura;
 
@@ -106,7 +105,11 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
     LocalDateTime readdatetimesql(ResultSet rs){
         LocalDateTime toret = null;
         try {
-            toret = LocalDateTime.parse(rs.getString("date").substring(0, 19).replaceFirst(" ", "T"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            if(rs.getString("date") != null){
+                toret = LocalDateTime.parse(rs.getString("date").substring(0, 19).replaceFirst(" ", "T"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            }else{
+                toret = LocalDateTime.now();
+            }
         } catch (SQLException sqle) {}
         return toret;
     }

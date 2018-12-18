@@ -18,7 +18,7 @@
         <meta charset="UTF-8">
         <%@include file="headheader.inc"%>
         <title>Temps of the day</title>
-        <script src="assets/js/chartjs-2.7.3/Chart.js"></script>
+        <script src="assets/js/chartjs-2.7.3/Chart.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <br>
-                            <h3><a href='/Smart_Thermo/Connector'>Clicca qui per tornare alla home</a></h3>
+                            <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
                         </section>
                     </div>
                 </div>
@@ -76,7 +76,6 @@
                     document.getElementById("ls").innerHTML="<h2>Actual temp and hum - TEMP: "+data+"</h2>";
                 });
             }
-            
             window.addEventListener("load", StartSearch);
             
             var ctx = document.getElementById("tempChart").getContext("2d");
@@ -90,18 +89,7 @@
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getHum()) + ",");}%>],
                             fill:false, borderColor:"#5f021f", lineTension:0.1}]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 1,
-                    scales: {
-                        yAxes: [{
-                                ticks: {
-                                    beginAtZero:false
-                                }
-                            }]
-                    }
-                }
+                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
             var tempChart = new Chart(ctx, {
                 type:'line',
@@ -112,16 +100,7 @@
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getTemp()) + ",");}%>],
                             fill:false, borderColor:"#3cb371", lineTension:0.1}]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 1,
-                    scales: {
-                        yAxes: [{
-                                ticks: { beginAtZero:false, min: <%=min%>, max: <%=max%> }
-                            }]
-                    }
-                }
+                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:false, min: <%=min%>, max: <%=max%> }}]}}
             });
             
             function updatedata(value){
@@ -137,47 +116,13 @@
             var ctmedt = document.getElementById("medtempChart").getContext("2d");
             var humChart = new Chart(ctmedh, {
                 type:'line',
-                data: {
-                    labels: labelsin,
-                    datasets: [{
-                            label: 'Medium Humidity %',
-                            data: medhumsin,
-                            fill:false, borderColor:"#963c3c", lineTension:0.1}]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 1,
-                    scales: {
-                        yAxes: [{
-                                ticks: {
-                                    beginAtZero:false
-                                }
-                            }]
-                    }
-                }
+                data:{labels:labelsin,datasets:[{label:'Medium Humidity %',data:medhumsin,fill:!1,borderColor:"#963c3c",lineTension:0.1}]},
+                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
             var humChart = new Chart(ctmedt, {
                 type:'line',
-                data: {
-                    labels: labelsin,
-                    datasets: [{
-                            label: 'Medium Temps °C',
-                            data: medtmpsin,
-                            fill:false, borderColor:"#216bff", lineTension:0.1}]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 1,
-                    scales: {
-                        yAxes: [{
-                                ticks: {
-                                    beginAtZero:false
-                                }
-                            }]
-                    }
-                }
+                data:{labels:labelsin,datasets:[{label:'Medium Temps °C',data:medtmpsin,fill:!1,borderColor:"#216bff",lineTension:0.1}]},
+                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
         </script>
         <%@include file="bottomjs.inc"%>

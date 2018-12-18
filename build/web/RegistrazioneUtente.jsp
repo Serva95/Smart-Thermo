@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>EatIt-RegistrazioneUtente</title>
+        <title>User Register</title>
         <%@include file="headheader.inc"%>
         <script>
             function compare(){
@@ -60,13 +60,12 @@
                                     <div class="6u 12u(mobilep)">
                                         <input type="password" name="repwd" id="repwd" value="" minlength="8" maxlength="30" required placeholder="Repeat password" onkeyup="compare()"/>
                                     </div>
-                                    <div class="row uniform">
-                                        <div class="12u">
-                                            <ul class="actions">
-                                                <li><input type="submit" value="Completa tutti i campi" id="inviadati"/></li>
-                                                <li><input type="reset" value="Reset" class="alt" /></li>
-                                            </ul>
-                                        </div>
+                                    <br>
+                                    <div class="12u">
+                                        <ul class="actions">
+                                            <li><input type="submit" value="Completa tutti i campi" id="inviadati"/></li>
+                                            <li><input type="reset" value="Reset" class="alt" /></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </form>   

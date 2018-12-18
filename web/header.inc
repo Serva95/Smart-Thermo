@@ -2,6 +2,7 @@
     <h1><a href="Connector"><img src="images/logo.png" width="185px"/></a></h1>
     <nav id="nav">
         <ul>
+            <li><a href="Connector">Home</a></li>
             <%if (loggedOn) {%>
             <li>
                 <form name="logoutForm" action="Login" method="post">
