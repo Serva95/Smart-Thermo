@@ -73,8 +73,10 @@
         <script>
             function StartSearch(){
                 $.post('Connector', {livesearch: "gettemp"}, function(data) {
-                    document.getElementById("ls").innerHTML="<h2>Actual temp and hum - TEMP: "+data+"</h2>";
+                    document.getElementById("ls").innerHTML="<h2><b>TEMP:</b> "+data+"</h2>";
                 });
+                setTimeout( StartSearch, 180000 );
+                //180 -> 480 lectures per day - once every 3 minutes
             }
             window.addEventListener("load", StartSearch);
             

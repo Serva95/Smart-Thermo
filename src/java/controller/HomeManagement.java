@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import model.dao.BackgroundDAO;
@@ -83,16 +85,15 @@ public class HomeManagement {
     
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        LoggedUser loggedUser;
+        //LoggedUser loggedUser;
         //Logger logger = LogService.getApplicationLogger();
-        
-        String nowreaded = "";
+        String nowreaded;
         Variabili var = new Variabili();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
+            //LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
+            //loggedUser = loggedUserDAO.find();
             boolean done = true;
             while(done){
                 String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
@@ -101,7 +102,7 @@ public class HomeManagement {
                     p = Runtime.getRuntime().exec(command);
                 } catch (IOException e) { throw new RuntimeException(e); }
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                nowreaded = fromexec.readLine();
+                nowreaded = "" + fromexec.readLine();
                 double actualhumdou = Double.parseDouble(nowreaded.substring(5));
                 if (actualhumdou < 100.5) {
                     var.setActualhumdbl(actualhumdou);
@@ -112,7 +113,8 @@ public class HomeManagement {
                     done = false;
                 }
             }
-            String total = var.getActualtemp() + " HUM: " + var.getActualhum();
+            String total = var.getActualtemp() + "&deg; <b>HUM:</b> " + var.getActualhum() + "&percnt; - AT " 
+                    + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);

@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import services.logservice.LogService;
+//import services.logservice.LogService;
 
 @MultipartConfig(fileSizeThreshold=1024*1024*5, maxFileSize=1024*1024*20, maxRequestSize=1024*1024*30)
 @WebServlet(name = "Connector", urlPatterns = {"/Connector"})
