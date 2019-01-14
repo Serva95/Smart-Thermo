@@ -21,7 +21,7 @@ public class Configuration {
   
   /* Logger Configuration */
   public static final String GLOBAL_LOGGER_NAME="smart_thermo";  
-  public static final String GLOBAL_LOGGER_FILE="C:\\Users\\serva\\Documents\\logs\\logger.%g.txt";
+  public static final String GLOBAL_LOGGER_FILE="C:\\Users\\serva\\Documents\\logs\\logger_smartthermo.%g.txt";
   public static final Level GLOBAL_LOGGER_LEVEL=Level.ALL;
   
   /* Password hashing configuration */

@@ -1,3 +1,4 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="model.mo.Lettura"%>
 <%@page session="false"%>
 <%@page import="model.session.mo.LoggedUser"%>
@@ -69,22 +70,6 @@
             </section>
         </div>
         <script>
-            function add(){
-                var labelll = "caca";
-                var dataaa = 53;
-                tempChart.data.labels.push(labelll);
-                tempChart.data.datasets.forEach((dataset) => {
-                    dataset.data.push(dataaa);
-                });
-                tempChart.update();
-            }
-            function rmv(){
-                tempChart.data.labels.shift();
-                tempChart.data.datasets.forEach((dataset) => {
-                    dataset.data.shift();
-                });
-                tempChart.update();
-            }
             function updateReal(){
                 $.post('Connector', {livesearch: "gettemp"}, function(data) {
                     document.getElementById("ls").innerHTML="<h2><b>TEMP:</b> "+data+"</h2>";
@@ -106,6 +91,7 @@
                         tempChart.data.datasets.forEach((dataset) => {
                             dataset.data.shift();
                         });
+                        tempChart.update();
                         //for hum
                         humChart.data.labels.push(data.substr(5,8));
                         humChart.data.datasets.forEach((dataset) => {
@@ -116,12 +102,10 @@
                             dataset.data.shift();
                         });
                         humChart.update();
-                        tempChart.update();
                     }
                 });
                 setTimeout( updateTemps, 840000 );
-                //setTimeout( updateTemps, 300000 );
-                //180 -> 480 lectures per day - once every 3 minutes
+                //setTimeout( updateTemps, 500 );
             }
             function startUpdate(){
                 updateReal();
@@ -134,22 +118,20 @@
             var humChart = new Chart(cth, {
                 type:'line',
                 data: {
-                    labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().toString() + "'" + ",");}%>],
+                    labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "'" + ",");}%>],
                     datasets: [{label: 'Humidity %',
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getHum()) + ",");}%>],
                             fill:!1, borderColor:"#5f021f", lineTension:0.1}]
-                },
-                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
+                },options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
             var tempChart = new Chart(ctx, {
                 type:'line',
                 data: {
-                    labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().toString() + "'" + ",");}%>],
+                    labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "'" + ",");}%>],
                     datasets: [{label: 'Temperatures °C',
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getTemp()) + ",");}%>],
                             fill:!1, borderColor:"#3cb371", lineTension:0.1}]
-                },
-                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:!1}}]}}
+                },options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:!1}}]}}
             });
             
             function updatedata(value){
@@ -163,12 +145,12 @@
             var medhumsin = [<%for(Lettura outmedrd : meds){out.print(String.valueOf(outmedrd.getHum()) + ",");}%>];
             var ctmedh = document.getElementById("medhumChart").getContext("2d");
             var ctmedt = document.getElementById("medtempChart").getContext("2d");
-            var humChart = new Chart(ctmedh, {
+            var medhumChart = new Chart(ctmedh, {
                 type:'line',
                 data:{labels:labelsin,datasets:[{label:'Medium Humidity %',data:medhumsin,fill:!1,borderColor:"#963c3c",lineTension:0.1}]},
                 options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
-            var humChart = new Chart(ctmedt, {
+            var medtempChart = new Chart(ctmedt, {
                 type:'line',
                 data:{labels:labelsin,datasets:[{label:'Medium Temps °C',data:medtmpsin,fill:!1,borderColor:"#216bff",lineTension:0.1}]},
                 options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}

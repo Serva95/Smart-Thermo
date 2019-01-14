@@ -22,8 +22,9 @@ public class BackgroundController implements ServletContextListener {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         //scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
         //scheduler.scheduleAtFixedRate(new SomeHourlyJob(), 0, 1, TimeUnit.HOURS);
+        
         scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 15, TimeUnit.MINUTES);
-        //scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 1, TimeUnit.MINUTES);
+        //scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 15, TimeUnit.SECONDS);
     }
     
     @Override
@@ -60,7 +61,7 @@ public class BackgroundController implements ServletContextListener {
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = fromexec.readLine();
                 
-                //nowreaded = ((int)(Math.random() * 11) + 15)+".5 55.9";
+                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
                 
                 daoFactory.beginTransaction();
                 BackgroundDAO backdao = daoFactory.getBackgroundDao();

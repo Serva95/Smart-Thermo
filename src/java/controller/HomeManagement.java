@@ -11,7 +11,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import model.dao.BackgroundDAO;
 import model.dao.DAOFactory;
 import model.dao.TempsDAO;
 import model.mo.Lettura;
@@ -105,10 +104,9 @@ public class HomeManagement {
             String total = "";
             if(last.getReadingdatetime().toLocalTime().compareTo(time)!=0){//=0 if are equals
                 total = Double.toString(last.getTemp())+"?"
-                        +last.getReadingdatetime().toLocalTime().toString()+"?"
+                        +last.getReadingdatetime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"))+"?"
                         +Double.toString(last.getHum());
             }
-            /*da fare se orario dell'ultimo dato è posteriore a quello attuale e se si aggiornare i dati*/
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);
                 out.flush();
@@ -151,7 +149,7 @@ public class HomeManagement {
                 } catch (IOException e) { throw new RuntimeException(e); }
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = "" + fromexec.readLine();
-                //nowreaded = ((int)(Math.random() * 11) + 15)+".5 55.9";
+                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
                 
                 double actualhumdou = Double.parseDouble(nowreaded.substring(5));
                 if (actualhumdou < 100.5) {
