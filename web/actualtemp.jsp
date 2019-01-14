@@ -8,8 +8,6 @@
   String applicationMessage = (String) request.getAttribute("applicationMessage");
   Lettura[] days = (Lettura[]) request.getAttribute("days");
   Lettura[] meds = (Lettura[]) request.getAttribute("meds");
-  double min = (double) request.getAttribute("min");
-  double max = (double) request.getAttribute("max");
 %>
 <%@page session="false"%>
 <!DOCTYPE HTML>
@@ -71,14 +69,65 @@
             </section>
         </div>
         <script>
-            function StartSearch(){
+            function add(){
+                var labelll = "caca";
+                var dataaa = 53;
+                tempChart.data.labels.push(labelll);
+                tempChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(dataaa);
+                });
+                tempChart.update();
+            }
+            function rmv(){
+                tempChart.data.labels.shift();
+                tempChart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift();
+                });
+                tempChart.update();
+            }
+            function updateReal(){
                 $.post('Connector', {livesearch: "gettemp"}, function(data) {
                     document.getElementById("ls").innerHTML="<h2><b>TEMP:</b> "+data+"</h2>";
                 });
-                setTimeout( StartSearch, 180000 );
+                setTimeout( updateReal, 180000 );
                 //180 -> 480 lectures per day - once every 3 minutes
             }
-            window.addEventListener("load", StartSearch);
+            function updateTemps(){
+                $.post('Connector', {livesearch: "updateTemps", dati:tempChart.data.labels[tempChart.data.labels.length - 1]}, function(data) {
+                    if(data.length>5 && data.length<35){
+                        //21.5?01:10:18?55.9
+                        //0-4  5-8     14-4
+                        //for temp
+                        tempChart.data.labels.push(data.substr(5,8));
+                        tempChart.data.datasets.forEach((dataset) => {
+                            dataset.data.push(data.substr(0,4));
+                        });
+                        tempChart.data.labels.shift();
+                        tempChart.data.datasets.forEach((dataset) => {
+                            dataset.data.shift();
+                        });
+                        //for hum
+                        humChart.data.labels.push(data.substr(5,8));
+                        humChart.data.datasets.forEach((dataset) => {
+                            dataset.data.push(data.substr(14,4));
+                        });
+                        humChart.data.labels.shift();
+                        humChart.data.datasets.forEach((dataset) => {
+                            dataset.data.shift();
+                        });
+                        humChart.update();
+                        tempChart.update();
+                    }
+                });
+                setTimeout( updateTemps, 840000 );
+                //setTimeout( updateTemps, 300000 );
+                //180 -> 480 lectures per day - once every 3 minutes
+            }
+            function startUpdate(){
+                updateReal();
+                setTimeout( updateTemps, 5000 );
+            }
+            window.addEventListener("load", startUpdate);
             
             var ctx = document.getElementById("tempChart").getContext("2d");
             var cth = document.getElementById("humChart").getContext("2d");
@@ -86,10 +135,9 @@
                 type:'line',
                 data: {
                     labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().toString() + "'" + ",");}%>],
-                    datasets: [{
-                            label: 'Humidity %',
+                    datasets: [{label: 'Humidity %',
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getHum()) + ",");}%>],
-                            fill:false, borderColor:"#5f021f", lineTension:0.1}]
+                            fill:!1, borderColor:"#5f021f", lineTension:0.1}]
                 },
                 options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
@@ -97,17 +145,16 @@
                 type:'line',
                 data: {
                     labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().toString() + "'" + ",");}%>],
-                    datasets: [{
-                            label: 'Temperatures °C',
+                    datasets: [{label: 'Temperatures °C',
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getTemp()) + ",");}%>],
-                            fill:false, borderColor:"#3cb371", lineTension:0.1}]
+                            fill:!1, borderColor:"#3cb371", lineTension:0.1}]
                 },
-                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:false, min: <%=min%>, max: <%=max%> }}]}}
+                options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:!1}}]}}
             });
             
             function updatedata(value){
                 //$.post('Connector', {livesearch: "getmeds"}, function(data) {
-                    //document.getElementById("ls").innerHTML="<h2>Actual temp and hum - TEMP: "+data+"</h2>";
+                //document.getElementById("ls").innerHTML="<h2>Actual temp and hum - TEMP: "+data+"</h2>";
                 //});
             }
             

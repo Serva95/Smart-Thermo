@@ -7,6 +7,8 @@ public interface TempsDAO {
     
     public Lettura[] Readtoday(LocalDate today);
     
+    public Lettura Readlast();
+    
     public Lettura[] Readmeds(int number_of_reads);
     
 }

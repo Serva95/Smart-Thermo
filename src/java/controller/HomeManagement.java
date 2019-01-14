@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,7 @@ public class HomeManagement {
         }
     }
     
+    /*per quanti giorni di media mi servono*/
     public static void getmeds(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
@@ -83,6 +85,51 @@ public class HomeManagement {
         }
     }
     
+    public static void updateTemps(HttpServletRequest request, HttpServletResponse response) {
+        SessionDAOFactory sessionDAOFactory;
+        LoggedUser loggedUser;
+        DAOFactory daoFactory = null;
+        try {
+            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
+            daoFactory.beginTransaction();
+            TempsDAO tempsdao = daoFactory.getTempsDao();
+            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
+            sessionDAOFactory.initSession(request, response);
+            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
+            loggedUser = loggedUserDAO.find();
+            
+            LocalTime time = LocalTime.parse(request.getParameter("dati"));
+            
+            Lettura last = tempsdao.Readlast();
+            daoFactory.commitTransaction();
+            String total = "";
+            if(last.getReadingdatetime().toLocalTime().compareTo(time)!=0){//=0 if are equals
+                total = Double.toString(last.getTemp())+"?"
+                        +last.getReadingdatetime().toLocalTime().toString()+"?"
+                        +Double.toString(last.getHum());
+            }
+            /*da fare se orario dell'ultimo dato è posteriore a quello attuale e se si aggiornare i dati*/
+            try (PrintWriter out = response.getWriter()) {
+                out.println(total);
+                out.flush();
+            }catch (IOException e){}
+        } catch (Exception e) {
+            //logger.log(Level.SEVERE, "Controller Error", e);
+            try {
+                if (daoFactory != null) {
+                    daoFactory.rollbackTransaction();
+                }
+            } catch (Throwable t) {}
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (daoFactory != null) {
+                    daoFactory.closeTransaction();
+                }
+            } catch (Throwable t) {}
+        }
+    }
+    
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         //LoggedUser loggedUser;
@@ -96,6 +143,7 @@ public class HomeManagement {
             //loggedUser = loggedUserDAO.find();
             boolean done = true;
             while(done){
+                
                 String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
                 Process p = new ProcessBuilder(command).start();
                 try {
@@ -103,6 +151,8 @@ public class HomeManagement {
                 } catch (IOException e) { throw new RuntimeException(e); }
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = "" + fromexec.readLine();
+                //nowreaded = ((int)(Math.random() * 11) + 15)+".5 55.9";
+                
                 double actualhumdou = Double.parseDouble(nowreaded.substring(5));
                 if (actualhumdou < 100.5) {
                     var.setActualhumdbl(actualhumdou);
@@ -139,30 +189,11 @@ public class HomeManagement {
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
             loggedUser = loggedUserDAO.find();
             
-            double min = 0;
-            double max = 0;
             Lettura[] days = tempsdao.Readtoday(LocalDate.now());
-            if(days.length > 0){
-                min = days[0].getTemp();
-                max = min;
-                for(Lettura extr : days){
-                    if(extr.getTemp()<min) min = extr.getTemp();
-                    if(extr.getTemp()>max) max = extr.getTemp();
-                }
-            }
-            if((max-min)<1){
-                max += 0.1;
-                min -= 0.1;
-            }else{
-                max += 0.5;
-                min -= 0.5;
-            }
             Lettura[] meds = tempsdao.Readmeds(7);
             daoFactory.commitTransaction();
             
             request.setAttribute("days", days);
-            request.setAttribute("min", min);
-            request.setAttribute("max", max);
             request.setAttribute("meds", meds);
             request.setAttribute("loggedOn",loggedUser!=null);
             request.setAttribute("loggedUser", loggedUser);

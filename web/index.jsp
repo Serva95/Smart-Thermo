@@ -8,6 +8,7 @@
     <script type="text/javascript">
       function onLoadHandler() {
         window.location.href = "/Connector";
+        //window.location.href = "/Smart_Thermo/Connector";
       }
       window.addEventListener("load", onLoadHandler);
     </script>

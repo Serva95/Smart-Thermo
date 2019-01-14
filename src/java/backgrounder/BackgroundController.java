@@ -23,6 +23,7 @@ public class BackgroundController implements ServletContextListener {
         //scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
         //scheduler.scheduleAtFixedRate(new SomeHourlyJob(), 0, 1, TimeUnit.HOURS);
         scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 15, TimeUnit.MINUTES);
+        //scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 1, TimeUnit.MINUTES);
     }
     
     @Override
@@ -59,9 +60,10 @@ public class BackgroundController implements ServletContextListener {
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = fromexec.readLine();
                 
+                //nowreaded = ((int)(Math.random() * 11) + 15)+".5 55.9";
+                
                 daoFactory.beginTransaction();
                 BackgroundDAO backdao = daoFactory.getBackgroundDao();
-                
                 double actualhumdou = Double.parseDouble(nowreaded.substring(5));
                 if (actualhumdou < 101.1) {
                     var.setActualhumdbl(actualhumdou);
@@ -80,7 +82,6 @@ public class BackgroundController implements ServletContextListener {
                     }
                 } catch (Throwable t) {}
                 throw new RuntimeException(e);
-                
             } finally {
                 try {
                     if (daoFactory != null) {
@@ -90,5 +91,4 @@ public class BackgroundController implements ServletContextListener {
             }
         }
     }
-    
 }

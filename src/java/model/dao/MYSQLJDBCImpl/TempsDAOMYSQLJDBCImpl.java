@@ -55,6 +55,24 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
     }
 
     @Override
+    public Lettura Readlast(){
+        PreparedStatement ps;
+        Lettura letti;
+        try {
+            //SELECT temp, hum, date FROM temps WHERE measureId = (SELECT MAX(measureId) FROM temps)
+            String sql = "SELECT temp, hum, date FROM temps ORDER BY measureId DESC LIMIT 1";
+            ps = conn.prepareStatement(sql);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                letti = readtemps(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return letti;
+    }
+    
+    @Override
     public Lettura[] Readmeds(int number_of_reads) {
         PreparedStatement ps;
         ArrayList<Lettura> letti = new ArrayList();
@@ -86,6 +104,7 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
         }
         return lettiarray;
     }
+    
     
     Lettura readtemps (ResultSet rs){
         Lettura lett = new Lettura();

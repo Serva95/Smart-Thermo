@@ -11,13 +11,16 @@ public class Configuration {
   public static final String DAO_IMPL=DAOFactory.MYSQLJDBCIMPL;
   public static final String DATABASE_DRIVER="com.mysql.jdbc.Driver";
   public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
-  //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=phpmyadmin&password=orologio-95-srv";
+  /*non questo
+  public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=phpmyadmin&password=orologio-95-srv";
+  */
+  //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
   
   /* Session Configuration */
   public static final String SESSION_IMPL=SessionDAOFactory.COOKIEIMPL;
   
   /* Logger Configuration */
-  public static final String GLOBAL_LOGGER_NAME="eatit";  
+  public static final String GLOBAL_LOGGER_NAME="smart_thermo";  
   public static final String GLOBAL_LOGGER_FILE="C:\\Users\\serva\\Documents\\logs\\logger.%g.txt";
   public static final Level GLOBAL_LOGGER_LEVEL=Level.ALL;
   
