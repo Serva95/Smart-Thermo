@@ -128,7 +128,7 @@
                 type:'line',
                 data: {
                     labels: [<%for(Lettura outread : days){out.print("'" + outread.getReadingdatetime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")) + "'" + ",");}%>],
-                    datasets: [{label: 'Temperatures °C',
+                    datasets: [{label: 'Temperatures ï¿½C',
                             data: [<%for(Lettura outread : days){out.print(String.valueOf(outread.getTemp()) + ",");}%>],
                             fill:!1, borderColor:"#3cb371", lineTension:0.1}]
                 },options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:!1}}]}}
@@ -152,7 +152,7 @@
             });
             var medtempChart = new Chart(ctmedt, {
                 type:'line',
-                data:{labels:labelsin,datasets:[{label:'Medium Temps °C',data:medtmpsin,fill:!1,borderColor:"#216bff",lineTension:0.1}]},
+                data:{labels:labelsin,datasets:[{label:'Medium Temps ï¿½C',data:medtmpsin,fill:!1,borderColor:"#216bff",lineTension:0.1}]},
                 options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
         </script>

@@ -103,9 +103,9 @@ public class HomeManagement {
             daoFactory.commitTransaction();
             String total = "";
             if(last.getReadingdatetime().toLocalTime().compareTo(time)!=0){//=0 if are equals
-                total = Double.toString(last.getTemp())+"?"
+                total = last.getTemp() +"?"
                         +last.getReadingdatetime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"))+"?"
-                        +Double.toString(last.getHum());
+                        + last.getHum();
             }
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);
