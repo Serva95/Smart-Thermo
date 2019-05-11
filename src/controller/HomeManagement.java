@@ -141,23 +141,25 @@ public class HomeManagement {
             //loggedUser = loggedUserDAO.find();
             boolean done = true;
             while(done){
-                
+                /*
                 String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
                 Process p = new ProcessBuilder(command).start();
                 try {
                     p = Runtime.getRuntime().exec(command);
                 } catch (IOException e) { throw new RuntimeException(e); }
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                nowreaded = "" + fromexec.readLine();
-                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
-                
-                double actualhumdou = Double.parseDouble(nowreaded.substring(5));
-                if (actualhumdou < 100.5) {
+                nowreaded = "" + fromexec.readLine();*/
+
+                nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
+
+                var.setActualhum(nowreaded.substring(5));
+                var.setActualtemp(nowreaded.substring(0, 4));
+                double actualhumdou = Double.parseDouble(var.getActualhum());
+                double actualtempdou = Double.parseDouble(var.getActualtemp());
+                if (actualhumdou < 99.9 && actualtempdou < 99.9) {
                     var.setActualhumdbl(actualhumdou);
+                    var.setActualtempdbl(actualtempdou);
                     var.setActualtemphum(nowreaded);
-                    var.setActualtemp(nowreaded.substring(0, 4));
-                    var.setActualhum(nowreaded.substring(5));
-                    var.setActualtempdbl(Double.parseDouble(var.getActualtemp()));
                     done = false;
                 }
             }

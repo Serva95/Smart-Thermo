@@ -17,7 +17,7 @@
         <meta charset="UTF-8">
         <%@include file="headheader.inc"%>
         <title>Temps of the day</title>
-        <script src="assets/js/chartjs-2.7.3/Chart.min.js"></script>
+        <script src="assets/js/chartjs-2.8.0/Chart.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
@@ -40,27 +40,25 @@
                             </div>
                             <br>
                             <br>
-                            <div class="row uniform 50%">
-                                <div class="9u 12u(mobilep)">
-                                    <h3>Select the number of data you want to see for the mediums</h3>
-                                </div>
-                                <div class="3u 12u(mobilep)">
-                                    <select id="datanumber" onchange="updatedata(this.value)">
+                            <div class="9u 12u(mobilep)">
+                                <h3>Select the number of data you want to see for the mediums</h3>
+                            </div>
+                            <div class="3u 12u(mobilep)">
+                                <select id="datanumber" onchange="updatedata(this.value)">
                                     <option value="7">7
                                     <option value="15">15
                                     <option value="30">30
                                     <option value="60">60
-                                    </select>
-                                </div>
+                                </select>
                             </div>
                             <br>
-                            <div class="chart-container medgraph">
+                            <div class="chart-container tempgraph">
                                 <canvas id="medhumChart"></canvas>
-                                <br>
-                                <br>
-                                <div class="chart-container medgraphright">
-                                    <canvas id="medtempChart"></canvas>
-                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="chart-container tempgraph">
+                                <canvas id="medtempChart"></canvas>
                             </div>
                             <br>
                             <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
