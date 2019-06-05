@@ -28,14 +28,14 @@
                                 <input type="hidden" name="ca" value="LoginManagement.loginUser"/>
                                 <div class="row uniform 50%">
                                     <div class="6u 12u(mobilep)">
-                                        <input type="email" name="mail" id="mail" value="" placeholder="Email" required size="50" />
+                                        <input type="text" name="username" id="username" value="" placeholder="Username" required size="50" />
                                     </div>
                                     <div class="6u 12u(mobilep)">
                                         <input type="password" name="pwd" id="pwd" value="" minlength="8" maxlength="30" required placeholder="Password"/>
                                     </div>
                                     <div class="12u 12u(mobilep)">
-                                        <input type="checkbox" name="remain" id="remain">
-                                        <label for="remain">Rmember me for 7 days</label>
+                                        <input type="checkbox" name="remain" id="remain" checked>
+                                        <label for="remain">Remember me for 7 days</label>
                                     </div> 
                                 </div>   
                                 <div class="row uniform">
@@ -47,9 +47,9 @@
                                     </div>
                                 </div>
                             </form>
-                            <h3>
+                            <!--<h3>
                                 <a href="javascript:registerForm.submit()" >Need an account ? <b>Click here to register</b></a>
-                            </h3>
+                            </h3>-->
                         </div>
                     </div>
                 </div>  

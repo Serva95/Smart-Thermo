@@ -10,9 +10,9 @@ public class Configuration {
   /* Database Configruation */
   public static final String DAO_IMPL=DAOFactory.MYSQLJDBCIMPL;
   public static final String DATABASE_DRIVER="com.mysql.jdbc.Driver";
-  //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
+  public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
 
-  public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
+  //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
   
   /* Session Configuration */
   public static final String SESSION_IMPL=SessionDAOFactory.COOKIEIMPL;

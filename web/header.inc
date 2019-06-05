@@ -22,11 +22,8 @@
                 </ul>
             </li>
             <%} else {%>
-                <li><a href="javascript:loginForm.submit()" class="button">Login/Register</a></li>
+                <li><a href="javascript:loginForm.submit()" class="button">Login</a></li>
             <%}%>
-            <li>
-                <a href="Connector?ca=AiutoManagement.view" class="button">Help</a>
-            </li>
         </ul>
     </nav>
 </header>

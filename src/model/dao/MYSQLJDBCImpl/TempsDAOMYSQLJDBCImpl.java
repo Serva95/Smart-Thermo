@@ -18,7 +18,6 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
     public TempsDAOMYSQLJDBCImpl(Connection conn) {this.conn = conn;}
     
     /**
-     *
      * @param today localdate esprime il giorno in cui cercare le letture
      * @return un array Lettura[] con tutte le letture di quel giorno
      */

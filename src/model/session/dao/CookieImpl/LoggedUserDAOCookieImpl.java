@@ -59,10 +59,8 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
     
     @Override
     public LoggedUser find() {
-        
         Cookie[] cookies = request.getCookies();
         LoggedUser loggedUser = null;
-        
         if (cookies != null) {
             for (int i = 0; i < cookies.length && loggedUser == null; i++) {
                 if (cookies[i].getName().equals("loggedUser")) {

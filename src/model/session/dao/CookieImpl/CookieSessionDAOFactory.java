@@ -13,7 +13,6 @@ public class CookieSessionDAOFactory extends SessionDAOFactory {
 
   @Override
   public void initSession(HttpServletRequest request, HttpServletResponse response) {
-
     try {
       this.request=request;
       this.response=response;
