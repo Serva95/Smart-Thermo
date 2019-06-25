@@ -54,15 +54,27 @@ public class HomeManagement {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
             TempsDAO tempsdao = daoFactory.getTempsDao();
-            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
+            /*sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            
-            String total = "";
-            
+            loggedUser = loggedUserDAO.find();*/
+            int number_of_reads = Integer.parseInt(request.getParameter("number"));
+            Lettura[] meds = tempsdao.Readmeds(number_of_reads);
+            String output="";
+            for(Lettura outmedrd : meds){
+                output += outmedrd.getReadingdatetime().toLocalDate().toString() + ",";
+            }
+            output+="#";
+            for(Lettura outmedrd : meds){
+                output += String.valueOf(outmedrd.getTemp()) + ",";
+            }
+            output+="#";
+            for(Lettura outmedrd : meds){
+                output += String.valueOf(outmedrd.getHum()) + ",";
+            }
+
             try (PrintWriter out = response.getWriter()) {
-                out.println(total);
+                out.println(output);
                 out.flush();
             }catch (IOException e){}
             
@@ -174,7 +186,8 @@ public class HomeManagement {
             throw new RuntimeException(e);
         }
     }
-    
+
+    /*first call for load actual temp page*/
     public static void gettempview(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;

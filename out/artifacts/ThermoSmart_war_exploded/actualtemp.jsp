@@ -18,7 +18,7 @@
         <%@include file="headheader.inc"%>
         <title>Temps of the day</title>
         <script src="assets/js/chartjs-2.8.0/Chart.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
         <div id="page-wrapper">
@@ -49,6 +49,7 @@
                                     <option value="15">15
                                     <option value="30">30
                                     <option value="60">60
+                                    <option value="100">100
                                 </select>
                             </div>
                             <br>
@@ -153,6 +154,56 @@
                 data:{labels:labelsin,datasets:[{label:'Medium Temps \u00B0C',data:medtmpsin,fill:!1,borderColor:"#216bff",lineTension:0.1}]},
                 options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales:{yAxes:[{ticks:{beginAtZero:!1}}]}}
             });
+
+            function updatedata(value){
+                $.post('Connector', {livesearch: "getmeds", number: value}, function(data) {
+                    if(data.length>15){
+                        var datesN = data.search("#");
+                        var dates = data.slice(0, datesN);
+                        data = data.slice(datesN+1, data.length);
+                        var tempsN = data.search("#");
+                        var temps = data.slice(0, tempsN);
+                        data = data.slice(tempsN+1, data.length);
+                        var hums = data;
+
+                        var valueNumber = medhumChart.data.labels.length;
+                        for(var i=0; i<valueNumber; i++) {
+                            medhumChart.data.labels.pop();
+                            medhumChart.data.datasets.forEach((dataset) => {
+                                dataset.data.pop();
+                            });
+                            medtempChart.data.labels.pop();
+                            medtempChart.data.datasets.forEach((dataset) => {
+                                dataset.data.pop();
+                            });
+                        }
+                        for(var i=0; i<value; i++) {
+                            var tmpN = dates.search(",");
+                            var tmpDates = dates.slice(0, tmpN);
+                            medhumChart.data.labels.push(tmpDates);
+                            //update only once because the var with labels is the same for the 2 meds graphs
+                            //so update both will result in duplicate labels for the dates
+                            dates = dates.slice(tmpN+1, dates.length);
+
+                            tmpN = temps.search(",");
+                            var tmpTemps = temps.slice(0, tmpN);
+                            medtempChart.data.datasets.forEach((dataset) => {
+                                dataset.data.push(tmpTemps);
+                            });
+                            temps = temps.slice(tmpN+1, temps.length);
+
+                            tmpN = hums.search(",");
+                            var tmpHums = hums.slice(0, tmpN);
+                            medhumChart.data.datasets.forEach((dataset) => {
+                                dataset.data.push(tmpHums);
+                            });
+                            hums = hums.slice(tmpN+1, hums.length);
+                        }
+                        medhumChart.update();
+                        medtempChart.update();
+                    }
+                });
+            }
         </script>
         <%@include file="bottomjs.inc"%>
     </body>
