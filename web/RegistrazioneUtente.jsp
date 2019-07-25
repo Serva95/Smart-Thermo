@@ -23,7 +23,7 @@
                     btn.disabled = "";
                     btn.value = "Conferma Dati";
                 }else{
-                    btn.value = "password e ripeti password sono diversi";
+                    btn.value = "password e ripeti password devono essere uguali";
                     btn.disabled = "disabled";
                 }
             }

@@ -5,14 +5,15 @@ import model.mo.Utente;
 
 public interface UtenteDAO {
 
-    public Utente insert(Utente user) throws DuplicatedObjectException;
+    Utente insert(Utente user) throws DuplicatedObjectException;
 
-    public void update(Utente user) throws DuplicatedObjectException ;
+    void update(Utente user) throws DuplicatedObjectException ;
 
-    public void delete(Utente user);
+    void delete(Utente user);
 
-    public Utente findByUserCodice(long codice);
+    Utente findByUserCodice(long codice);
 
-    public Utente findByUserMail(String email);
+    Utente findByUserMail(String email);
 
+    Utente findByUsername(String username);
 }

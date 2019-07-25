@@ -47,9 +47,9 @@
                                     </div>
                                 </div>
                             </form>
-                            <!--<h3>
+                            <h3>
                                 <a href="javascript:registerForm.submit()" >Need an account ? <b>Click here to register</b></a>
-                            </h3>-->
+                            </h3>
                         </div>
                     </div>
                 </div>  

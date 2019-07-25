@@ -1,38 +1,27 @@
 package loginner;
 
-import static controller.PasswordHash.passwordhash;
-
+import static controller.PasswordHash.*;
 import java.io.File;
 import java.io.InputStream;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-
 import java.security.MessageDigest;
-
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import javax.xml.bind.DatatypeConverter;
-
 import model.dao.DAOFactory;
 import model.dao.UtenteDAO;
 import model.dao.exception.DuplicatedObjectException;
-
 import model.mo.Utente;
-
 import model.session.dao.LoggedUserDAO;
 import model.session.dao.SessionDAOFactory;
 import model.session.mo.LoggedUser;
-
 import services.config.Configuration;
 import services.logservice.LogService;
 
@@ -41,7 +30,7 @@ import services.logservice.LogService;
         maxRequestSize=1024*1024*50)
 
 public class RegisterManagement{
-    
+
     private RegisterManagement(){
     }
     
@@ -85,12 +74,12 @@ public class RegisterManagement{
             String email = request.getParameter("email");
             String pwd = request.getParameter("pwd");
             String username = request.getParameter("username");
-            String digconv = passwordhash(pwd);
+            String digconv = passwordHashPBKDF2(pwd);
             Utente toinsert = new Utente(email, username, digconv);
             try {
                 utenteDAO.insert(toinsert);
-                applicationMessage = "<h3>Thanks for register</h3>"
-                        + "<h3>Welcome "+ email +"</h3>";
+                applicationMessage = "<h3>Grazie di esserti registrato</h3>"
+                        + "<h3>Benvenuto "+ email +"</h3>";
                 success = true;
             } catch (DuplicatedObjectException e) {
                 applicationMessage = "<h3>Attenzione utente già esistente!</h3>"

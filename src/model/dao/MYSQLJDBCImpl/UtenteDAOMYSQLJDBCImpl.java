@@ -28,11 +28,13 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
                     + " FROM utente "
                     + " WHERE "
                     + " deleted ='0' AND "
-                    + " email = ?";
+                    + " email = ? AND "
+                    + " username = ?";
             
             ps = conn.prepareStatement(sql);
             int i = 1;
             ps.setString(i++, user.getEmail());
+            ps.setString(i++, user.getUsername());
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     throw new DuplicatedObjectException("UtenteDAOJDBCImpl.create: Tentativo di inserimento di un utente già esistente.");
@@ -66,6 +68,7 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
             
             ps = conn.prepareStatement(sql);
             i = 1;
+            ps.setLong(i++, user.getCodice());
             ps.setString(i++, user.getEmail());
             ps.setString(i++, user.getUsername());
             ps.setString(i++, user.getPassword());
@@ -188,6 +191,30 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
             
             ps = conn.prepareStatement(sql);
             ps.setLong(1, codice);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    user = read(resultSet);
+                }
+            }
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+
+    @Override
+    public Utente findByUsername (String username){
+        PreparedStatement ps;
+        Utente user = null;
+        try {
+            String sql = "SELECT * "
+                    + "FROM utente "
+                    + "WHERE "
+                    + "username = ? ";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     user = read(resultSet);

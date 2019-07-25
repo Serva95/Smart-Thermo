@@ -73,15 +73,15 @@ public class LoginManagement {
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
-            String mail = request.getParameter("mail");
+            String uname = request.getParameter("username");
             String pwd = request.getParameter("pwd");
             boolean rememberMe = ((request.getParameter("remain")!=null)? request.getParameter("remain"): "").equalsIgnoreCase("on");
             
             UtenteDAO userDAO = daoFactory.getUserDAO();
-            Utente user = userDAO.findByUserMail(mail);
+            Utente user = userDAO.findByUsername(uname);
             boolean verified = false;
             try{
-                verified = passwordVerify(pwd, user.getPassword());
+                verified = passwordVerifyPBKDF2(pwd, user.getPassword());
             }catch (NullPointerException e){}
             if (user == null || !verified) {
                 loggedUserDAO.destroy();

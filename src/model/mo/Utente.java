@@ -22,7 +22,7 @@ public class Utente{
         this.codice = codice;
         this.deleted = deleted;
     }
-    
+
     public String getEmail() {
         return email;
     }
