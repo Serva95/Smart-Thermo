@@ -7,89 +7,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b344da00-635b-41e4-b32f-9e060e8c2282" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/sha.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/sha.js.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/.eslintrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/.npmignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/cipher-base/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/md5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hash/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/legacy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/create-hmac/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/hash-base/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/hash-base/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/hash-base/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/hash-base/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/inherits/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/inherits/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/inherits/inherits.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/inherits/inherits_browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/inherits/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/md5.js/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/md5.js/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/md5.js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/md5.js/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/lib/async.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/lib/default-encoding.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/lib/precondition.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/lib/sync-browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/lib/sync.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/pbkdf2/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ripemd160/CHANGELOG.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ripemd160/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ripemd160/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ripemd160/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ripemd160/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-buffer/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-buffer/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-buffer/index.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-buffer/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/safe-buffer/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/.travis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/bin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/hash.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha224.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha256.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha384.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/sha512.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/test/hash.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/test/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/sha.js/test/vectors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/loginner/UtenteManagement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/profiloUtente.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/profiloUtenteEdit.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/RegistrazioneUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/RegistrazioneUtente.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/accedi.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/accedi.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/PasswordHash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/PasswordHash.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/Connector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/loginner/LoginManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/LoginManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/mo/Utente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mo/Utente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/RegistrazioneUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/RegistrazioneUtente.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/accedi.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/accedi.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/home.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,8 +51,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="Class" />
-        <option value="package.json" />
       </list>
     </option>
   </component>
@@ -150,15 +81,13 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.16.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/mysql-connector-java-5.1.47.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -422,9 +351,6 @@
       <workItem from="1561629572417" duration="2472000" />
       <workItem from="1564073473241" duration="313000" />
       <workItem from="1564073880315" duration="1946000" />
-      <workItem from="1564767145235" duration="1891000" />
-      <workItem from="1565369227818" duration="2789000" />
-      <workItem from="1565427489124" duration="4501000" />
     </task>
     <servers />
   </component>
@@ -436,9 +362,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>

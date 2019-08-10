@@ -1,7 +1,0 @@
-{
-  "name": "ThermoSmart",
-  "version": "1.0.0",
-  "dependencies": {
-    "pbkdf2": "latest"
-  }
-}

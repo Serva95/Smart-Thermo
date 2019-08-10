@@ -11,11 +11,6 @@
     <head>
         <title>Login</title>
         <%@include file="headheader.inc"%>
-        <script>
-            var pbkdf2 = require('pbkdf2');
-            var derivedKey = pbkdf2.pbkdf2('password', 'salt', 80000, 512, 'sha512');
-            console.log(derivedKey);
-        </script>
     </head>
     <body>
         <div id="page-wrapper">
