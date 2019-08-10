@@ -117,62 +117,6 @@ public class RegisterManagement{
     }
     
     /*
-    public static void profileView(HttpServletRequest request, HttpServletResponse response) {
-        
-        SessionDAOFactory sessionDAOFactory;
-        LoggedUser loggedUser;
-        DAOFactory daoFactory = null;
-        Logger logger = LogService.getApplicationLogger();
-        
-        try {
-            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
-            sessionDAOFactory.initSession(request, response);
-            
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            
-            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
-            daoFactory.beginTransaction();
-            
-            UtenteDAO utenteDAO = daoFactory.getUserDAO();
-            
-            if(loggedUser!=null && loggedUser.getTipo()==1){
-                Utente utente = utenteDAO.findByUserMail(loggedUser.getMail());
-                
-                daoFactory.commitTransaction();
-                
-                request.setAttribute("utente", utente);
-                request.setAttribute("loggedOn",loggedUser!=null);
-                request.setAttribute("loggedUser", loggedUser);
-                request.setAttribute("viewUrl", "profiloUtente");
-            }else{
-                request.setAttribute("loggedOn",loggedUser!=null);
-                request.setAttribute("loggedUser", loggedUser);
-                request.setAttribute("viewUrl", "home");
-            }
-            
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
-            try {
-                if (daoFactory != null) {
-                    daoFactory.rollbackTransaction();
-                }
-            } catch (Throwable t) {
-            }
-            throw new RuntimeException(e);
-            
-        } finally {
-            try {
-                if (daoFactory != null) {
-                    daoFactory.closeTransaction();
-                }
-            } catch (Throwable t) {
-            }
-        }
-        
-    }
-    
-    
     public static void profileEdit(HttpServletRequest request, HttpServletResponse response) {
         
         SessionDAOFactory sessionDAOFactory;

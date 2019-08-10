@@ -23,18 +23,18 @@ public class LoginManagement {
     
     private LoginManagement(){ }
     
-    /*LOGAOUT VALIDO PER TUTTI GLI UTENTI*/
+    /*LOGOUT VALIDO PER TUTTI GLI UTENTI*/
     public static void logoutUser(HttpServletRequest request, HttpServletResponse response) {
         
         SessionDAOFactory sessionDAOFactory;
-        Logger logger = LogService.getApplicationLogger();
+        //Logger logger = LogService.getApplicationLogger();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
             loggedUserDAO.destroy();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
+            //logger.log(Level.SEVERE, "Controller Error", e);
             throw new RuntimeException(e);
         }
         request.setAttribute("loggedOn",false);
@@ -46,7 +46,7 @@ public class LoginManagement {
     public static void view(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
-        Logger logger = LogService.getApplicationLogger();
+        //Logger logger = LogService.getApplicationLogger();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
@@ -56,7 +56,7 @@ public class LoginManagement {
             request.setAttribute("loggedUser", loggedUser);
             request.setAttribute("viewUrl", "accedi");
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
+            //logger.log(Level.SEVERE, "Controller Error", e);
             throw new RuntimeException(e);
         }
     }
@@ -66,7 +66,7 @@ public class LoginManagement {
         DAOFactory daoFactory = null;
         LoggedUser loggedUser;
         String applicationMessage = null;
-        Logger logger = LogService.getApplicationLogger();
+        //Logger logger = LogService.getApplicationLogger();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
@@ -97,7 +97,7 @@ public class LoginManagement {
             request.setAttribute("loggedUser", loggedUser);
             request.setAttribute("applicationMessage", applicationMessage);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
+            //logger.log(Level.SEVERE, "Controller Error", e);
             try {
                 if (daoFactory != null) {
                     daoFactory.rollbackTransaction();
