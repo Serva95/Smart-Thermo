@@ -6,23 +6,34 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b344da00-635b-41e4-b32f-9e060e8c2282" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="b344da00-635b-41e4-b32f-9e060e8c2282" name="Default Changelist" comment="removed register option, changed login method from email to username, removed help link in top bar, corrected deg in js graphs">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/TermoManagement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controller/UtenteManagement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/mo/Stanza.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/profiloUtente.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/profiloUtenteEdit.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/RegistrazioneUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/RegistrazioneUtente.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/accedi.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/accedi.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/header.inc" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/header.inc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/response.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/response.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/HomeManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/HomeManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/PasswordHash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/PasswordHash.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/Connector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/loginner/LoginManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/LoginManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/mo/Utente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mo/Utente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/mo/Lettura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mo/Lettura.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/session/dao/CookieImpl/LoggedUserDAOCookieImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/session/dao/CookieImpl/LoggedUserDAOCookieImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/session/dao/LoggedUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/session/dao/LoggedUserDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/config/Configuration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/RegistrazioneUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/RegistrazioneUtente.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/logservice/LogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/logservice/LogService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/accedi.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/accedi.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/header.inc" beforeDir="false" afterPath="$PROJECT_DIR$/web/header.inc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/response.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/response.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +62,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -71,6 +83,9 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectId" id="1OVs0E0hFNH0cdOU5JJG65FVquc" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
@@ -84,10 +99,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/mysql-connector-java-5.1.47.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="controller" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -102,6 +123,79 @@
     </option>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.19">
+    <configuration name="Tomcat 7.0.56" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.56" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/ThermoSmart_WAR/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="ThermoSmart:WAR">
+          <settings>
+            <option name="CONTEXT_PATH" value="/ThermoSmart_WAR" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Tomcat_9_0_19_(1)_ThermoSmart" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="57606" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="ThermoSmart:WAR" />
+        </option>
+      </method>
+    </configuration>
     <configuration name="Tomcat 9.0.19" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.19" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
@@ -312,6 +406,7 @@
     </configuration>
     <list>
       <item itemvalue="Tomcat Server.Tomcat 9.0.19" />
+      <item itemvalue="Tomcat Server.Tomcat 7.0.56" />
       <item itemvalue="Tomcat Server.index.jsp" />
     </list>
     <recent_temporary>
@@ -351,6 +446,15 @@
       <workItem from="1561629572417" duration="2472000" />
       <workItem from="1564073473241" duration="313000" />
       <workItem from="1564073880315" duration="1946000" />
+      <workItem from="1565475700093" duration="230000" />
+      <workItem from="1565620674995" duration="812000" />
+      <workItem from="1565621918451" duration="6729000" />
+      <workItem from="1565718609522" duration="3119000" />
+      <workItem from="1565878138337" duration="2653000" />
+      <workItem from="1566198185570" duration="9708000" />
+      <workItem from="1566493871561" duration="59000" />
+      <workItem from="1566493991848" duration="730000" />
+      <workItem from="1567691957110" duration="7848000" />
     </task>
     <servers />
   </component>
@@ -362,7 +466,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import model.dao.DAOFactory;
 import model.dao.TempsDAO;
 import model.mo.Lettura;
-
-import services.config.Configuration;
-
+import services.config.*;
 import model.session.mo.LoggedUser;
 import model.session.dao.SessionDAOFactory;
 import model.session.dao.LoggedUserDAO;
@@ -28,8 +26,6 @@ public class HomeManagement {
     public static void view(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
-        //Logger logger = LogService.getApplicationLogger();
-        
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
@@ -43,44 +39,36 @@ public class HomeManagement {
             throw new RuntimeException(e);
         }
     }
-    
-    /*per quanti giorni di media mi servono*/
+
+    /**per quanti giorni di media mi servono*/
     public static void getmeds(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        LoggedUser loggedUser;
         DAOFactory daoFactory = null;
         Variabili var = new Variabili();
         try {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
             TempsDAO tempsdao = daoFactory.getTempsDao();
-            /*sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
+            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();*/
             int number_of_reads = Integer.parseInt(request.getParameter("number"));
             Lettura[] meds = tempsdao.Readmeds(number_of_reads);
-            String output="";
-            for(Lettura outmedrd : meds){
-                output += outmedrd.getReadingdatetime().toLocalDate().toString() + ",";
-            }
-            output+="#";
-            for(Lettura outmedrd : meds){
-                output += String.valueOf(outmedrd.getTemp()) + ",";
-            }
-            output+="#";
-            for(Lettura outmedrd : meds){
-                output += String.valueOf(outmedrd.getHum()) + ",";
-            }
+            StringBuilder output= new StringBuilder();
+            for(Lettura outmedrd : meds) output.append(outmedrd.getReadingdatetime().toLocalDate().toString()).append(",");
+            output.append("#");
+            for(Lettura outmedrd : meds) output.append(outmedrd.getTemp()).append(",");
+            output.append("#");
+            for(Lettura outmedrd : meds) output.append(outmedrd.getHum()).append(",");
 
             try (PrintWriter out = response.getWriter()) {
                 out.println(output);
                 out.flush();
-            }catch (IOException e){}
+            }catch (IOException e){
+                e.printStackTrace();
+            }
             
         daoFactory.commitTransaction();
         } catch (Exception e) {
-            //logger.log(Level.SEVERE, "Controller Error", e);
             try {
                 if (daoFactory != null) {
                     daoFactory.rollbackTransaction();
@@ -98,7 +86,6 @@ public class HomeManagement {
     
     public static void updateTemps(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        LoggedUser loggedUser;
         DAOFactory daoFactory = null;
         try {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
@@ -106,11 +93,7 @@ public class HomeManagement {
             TempsDAO tempsdao = daoFactory.getTempsDao();
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            
             LocalTime time = LocalTime.parse(request.getParameter("dati"));
-            
             Lettura last = tempsdao.Readlast();
             daoFactory.commitTransaction();
             String total = "";
@@ -142,18 +125,13 @@ public class HomeManagement {
     
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        //LoggedUser loggedUser;
-        //Logger logger = LogService.getApplicationLogger();
         String nowreaded;
         Variabili var = new Variabili();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            //LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            //loggedUser = loggedUserDAO.find();
             boolean done = true;
             while(done){
-
                 String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
                 Process p = new ProcessBuilder(command).start();
                 try {
@@ -177,7 +155,6 @@ public class HomeManagement {
             }
             String total = var.getActualtemp() + "&deg; <b>HUM:</b> " + var.getActualhum() + "&percnt; - AT " 
                     + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-            
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);
                 out.flush();
@@ -187,12 +164,11 @@ public class HomeManagement {
         }
     }
 
-    /*first call for load actual temp page*/
+    /**first call for load actual temp page*/
     public static void gettempview(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
         DAOFactory daoFactory = null;
-        //Logger logger = LogService.getApplicationLogger();
         try {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
@@ -201,7 +177,7 @@ public class HomeManagement {
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
             loggedUser = loggedUserDAO.find();
-            
+            if(loggedUser == null) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             Lettura[] days = tempsdao.Readtoday(LocalDate.now());
             Lettura[] meds = tempsdao.Readmeds(7);
             daoFactory.commitTransaction();
@@ -212,7 +188,6 @@ public class HomeManagement {
             request.setAttribute("loggedUser", loggedUser);
             request.setAttribute("viewUrl", "actualtemp");
         } catch (Exception e) {
-            //logger.log(Level.SEVERE, "Controller Error", e);
             try {
                 if (daoFactory != null) {
                     daoFactory.rollbackTransaction();

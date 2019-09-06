@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.JDBC4CallableStatement;
 import model.mo.Utente;
 import model.dao.UtenteDAO;
 import model.dao.exception.DuplicatedObjectException;
@@ -97,7 +98,6 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
             i = 1;
             ps.setString(i++, user.getEmail());
             ps.setLong(i++, user.getCodice());
-            System.out.println(ps);
             boolean exist;
             try (ResultSet resultSet = ps.executeQuery()) {
                 exist = resultSet.next();
@@ -151,31 +151,25 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
     public Utente findByUserMail (String email){
         PreparedStatement ps;
         Utente user = new Utente();
-        /*try {
-        
         String sql
-        = "SELECT * "
-        + "FROM utente "
-        + "WHERE "
-        + "email = ? AND "
-        + "deleted = '0' ";
-        
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, email);
-        try (ResultSet resultSet = ps.executeQuery()) {
-        if (resultSet.next()) {
-        user = read(resultSet);
+                = "SELECT * "
+                + "FROM utente "
+                + "WHERE "
+                + "email = ? AND "
+                + "deleted = '0' ";
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    user = read(resultSet);
+                }
+            }
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        }
-        ps.close();
-        } catch (SQLException e) {
-        throw new RuntimeException(e);
-        }*/
-        user.setCodice(1);
-        user.setDeleted(false);
-        user.setUsername("alberto12");
-        user.setEmail("aa@bb.com");
-        user.setPassword("284DA789DBD5955393DEE8D7090ED25550E7D7E3A9295F76926B194421622CC4F4E7911B18957F47D0E32CDFE3C6BD5C0B0F8C76F650D6F6F4985BD0B81A7623");
         return user;
     }
     
@@ -205,15 +199,12 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
 
     @Override
     public Utente findByUsername (String username){
-        PreparedStatement ps;
         Utente user = null;
-        try {
-            String sql = "SELECT * "
-                    + "FROM utente "
-                    + "WHERE "
-                    + "username = ? ";
+        String sql = "SELECT * FROM utente WHERE " +
+                "username = ?";
 
-            ps = conn.prepareStatement(sql);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
@@ -247,7 +238,7 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
         } catch (SQLException sqle) {
         }
         try {
-            user.setDeleted(rs.getString("deleted").equals("Y"));
+            user.setDeleted(rs.getString("deleted").equals("1"));
         } catch (SQLException sqle) {
         }
         return user;

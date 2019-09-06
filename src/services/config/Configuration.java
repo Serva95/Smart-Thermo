@@ -10,9 +10,9 @@ public class Configuration {
     /* Database Configruation */
     public static final String DAO_IMPL=DAOFactory.MYSQLJDBCIMPL;
     public static final String DATABASE_DRIVER="com.mysql.jdbc.Driver";
-    public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
+    //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
 
-    //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
+    public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
 
     /* Session Configuration */
     public static final String SESSION_IMPL=SessionDAOFactory.COOKIEIMPL;
@@ -20,7 +20,7 @@ public class Configuration {
     /* Logger Configuration */
     public static final String GLOBAL_LOGGER_NAME="smart_thermo";
     public static final String GLOBAL_LOGGER_FILE="C:\\Users\\serva\\Documents\\logs\\logger_smartthermo.%g.txt";
-    public static final Level GLOBAL_LOGGER_LEVEL=Level.ALL;
+    public static final Level GLOBAL_LOGGER_LEVEL=Level.WARNING;
 
     /* Password hashing configuration */
     public static final String[] BEGIN_SALTS = {"aNK}c86RYzsx^FpjT7@<","x@nR<S>GYC]6pv_)g^jZ","axFe68)<AguB_%fV5Ls3","e7Pb^Df{h>9S&+nqGA6V",

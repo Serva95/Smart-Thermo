@@ -19,7 +19,7 @@
             <section id="banner">
                 <h2>Thermo Pi</h2>
                 <p>Home of your Smart Thermo Pi</p>
-                <h3 style="font-weight: bold; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Login to see more details</h3>
+                <h3 style="font-weight: bold; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;"><%if(loggedOn){out.print("Benvenuto "+loggedUser.getUsername());}else{out.print("Login to see more details");} %></h3>
                 
             </section>
                 
@@ -36,16 +36,8 @@
                 <footer id="footer">
                     <ul class="copyright">
                         <li>&copy; Serva. All rights reserved.</li>
-                        <li><a href="javascript:LoginAdmin.submit()">META - Login</a></li>
-                        <li><a href="javascript:trytmp.submit()">View actual temp</a></li>
                     </ul>
                 </footer>
-                <form method="post" action="Connector" autocomplete="on" name="LoginAdmin">
-                    <input type="hidden" name="ca" value="LoginManagement.adminLoginView"/>
-                </form>
-                <form method="post" action="Connector" autocomplete="on" name="trytmp">
-                    <input type="hidden" name="ca" value="HomeManagement.gettempview"/>
-                </form>
             </section>
         </div>
         <%@include file="bottomjs.inc"%>

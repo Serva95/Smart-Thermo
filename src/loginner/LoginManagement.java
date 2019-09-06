@@ -16,7 +16,7 @@ import model.session.dao.LoggedUserDAO;
 import model.session.dao.SessionDAOFactory;
 import model.session.mo.LoggedUser;
 
-import services.config.Configuration;
+import services.config.*;
 import services.logservice.LogService;
 
 public class LoginManagement {
@@ -76,7 +76,8 @@ public class LoginManagement {
             String uname = request.getParameter("username");
             String pwd = request.getParameter("pwd");
             boolean rememberMe = ((request.getParameter("remain")!=null)? request.getParameter("remain"): "").equalsIgnoreCase("on");
-            
+            int days = Integer.parseInt(request.getParameter("days"));
+
             UtenteDAO userDAO = daoFactory.getUserDAO();
             Utente user = userDAO.findByUsername(uname);
             boolean verified = false;
@@ -89,7 +90,7 @@ public class LoginManagement {
                 loggedUser=null;
                 request.setAttribute("viewUrl", "accedi");
             } else {
-                loggedUser = loggedUserDAO.create(user.getEmail(), user.getUsername(), rememberMe);
+                loggedUser = loggedUserDAO.create(user.getEmail(), user.getUsername(), rememberMe, days);
                 request.setAttribute("viewUrl", "home");
             }
             daoFactory.commitTransaction();

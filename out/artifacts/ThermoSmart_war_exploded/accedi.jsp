@@ -33,10 +33,18 @@
                                     <div class="6u 12u(mobilep)">
                                         <input type="password" name="pwd" id="pwd" value="" minlength="8" maxlength="30" required placeholder="Password"/>
                                     </div>
-                                    <div class="12u 12u(mobilep)">
+                                    <div class="3u 12u(mobilep)">
                                         <input type="checkbox" name="remain" id="remain" checked>
-                                        <label for="remain">Remember me for 7 days</label>
-                                    </div> 
+                                        <label for="remain">Remember me</label>
+                                    </div>
+                                    <div class="6u 12u(mobilep)">
+                                        <select name="days" id="days">
+                                            <option value="7">for 7 days</option>
+                                            <option value="15">for 15 days</option>
+                                            <option value="30">for 30 days</option>
+                                            <option value="365">for 365 days</option>
+                                        </select>
+                                    </div>
                                 </div>   
                                 <div class="row uniform">
                                     <div class="12u">

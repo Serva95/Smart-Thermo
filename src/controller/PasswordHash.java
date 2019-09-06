@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import services.config.Configuration;
+import services.config.*;
 
 public class PasswordHash {
 

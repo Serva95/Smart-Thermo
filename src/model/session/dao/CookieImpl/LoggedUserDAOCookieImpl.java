@@ -24,7 +24,7 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
     }
     
     @Override
-    public LoggedUser create(String email,String username,boolean rememberMe) {
+    public LoggedUser create(String email, String username, boolean rememberMe, int days) {
         LoggedUser loggedUser = new LoggedUser();
         loggedUser.setMail(email);
         loggedUser.setUsername(username);
@@ -32,7 +32,7 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
         cookie = new Cookie("loggedUser", encode(loggedUser));
         cookie.setPath("/");
         if(rememberMe){
-            cookie.setMaxAge(7*24*60*60); //una settimana di vita
+            cookie.setMaxAge(days*24*60*60); //una settimana di vita
         }else{
             cookie.setMaxAge(-1); //mettere -1 per lasciare in vita fino alla chiusura del browser
         }

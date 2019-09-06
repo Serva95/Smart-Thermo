@@ -22,7 +22,7 @@
               <div class="row">
                   <div class="12u">
                       <section class="box">
-                          <%=applicationMessage%>
+                          <%=applicationMessage%> - Pagina ancora in costruzione. Torna pi&ugrave; tardi.
                           <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
                       </section>
                   </div>

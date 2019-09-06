@@ -1,9 +1,8 @@
 package services.logservice;
 
+import services.config.*;
 import java.io.IOException;
 import java.util.logging.*;
-
-import services.config.Configuration;
 
 public class LogService {
 

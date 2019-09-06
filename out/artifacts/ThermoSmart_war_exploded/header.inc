@@ -8,21 +8,27 @@
                 <form name="logoutForm" action="Login" method="post">
                     <input type="hidden" name="ca" value="LoginManagement.logoutUser"/>
                 </form>
-            </li>
-            <li>
-                <form name="profileView" action="Login" method="post">
+                <form name="getTemp" action="Connector" method="post" >
+                    <input type="hidden" name="ca" value="HomeManagement.gettempview"/>
+                </form>
+                <form name="profileView" action="Connector" method="post">
                     <input type="hidden" name="ca" value="UtenteManagement.profileView"/>
+                </form>
+                <form name="termostato" action="Connector" method="post">
+                    <input type="hidden" name="ca" value="TermoManagement.view"/>
                 </form>
             </li>
             <li>
-                <a href="#" class="icon fa-angle-down">Welcome <%=loggedUser.getUsername()%>!</a>
+                <a href="#" class="icon fa-angle-down">Benvenuto <%=loggedUser.getUsername()%>!</a>
                 <ul>
+                    <li><a href="javascript:getTemp.submit()">Vedi dati Temperatura</a></li>
+                    <li><a href="javascript:termostato.submit()">Pagina Termostato</a></li>
                     <li><a href="javascript:profileView.submit()">Profilo</a><li/>
                     <li><a href="javascript:logoutForm.submit()">Logout</a></li>
                 </ul>
             </li>
             <%} else {%>
-                <li><a href="javascript:loginForm.submit()" class="button">Login</a></li>
+            <li><a href="javascript:loginForm.submit()" class="button">Login</a></li>
             <%}%>
         </ul>
     </nav>

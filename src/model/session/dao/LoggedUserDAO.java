@@ -4,7 +4,7 @@ import model.session.mo.LoggedUser;
 
 public interface LoggedUserDAO {
 
-  public LoggedUser create(String email,String username,boolean rememberMe);
+  public LoggedUser create(String email, String username, boolean rememberMe, int days);
 
   public void update(LoggedUser loggedUser);
 

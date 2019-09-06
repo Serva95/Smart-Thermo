@@ -8,6 +8,14 @@ public class Lettura {
     private double temp;
     private double hum;
 
+    public Lettura(){}
+
+    public Lettura(LocalDateTime readingdatetime, double temp, double hum){
+        this.readingdatetime = readingdatetime;
+        this.temp = temp;
+        this.hum = hum;
+    }
+
     public LocalDateTime getReadingdatetime() {
         return readingdatetime;
     }

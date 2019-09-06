@@ -36,12 +36,8 @@
                 <footer id="footer">
                     <ul class="copyright">
                         <li>&copy; Serva. All rights reserved.</li>
-                        <li><a href="javascript:trytmp.submit()">View actual temp</a></li>
                     </ul>
                 </footer>
-                <form method="post" action="Connector" autocomplete="on" name="trytmp">
-                    <input type="hidden" name="ca" value="HomeManagement.gettempview"/>
-                </form>
             </section>
         </div>
         <%@include file="bottomjs.inc"%>
