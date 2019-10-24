@@ -45,16 +45,16 @@
                                 <input type="hidden" name="cod" value="<%=user.getCodice()%>"/>
                                 <div class="row uniform 50%">
                                     <div class="6u 12u(mobilep)">
-                                        <input type="text" name="username" id="username" value="<%=user.getUsername()%>" placeholder="Username per recensioni" maxlength="30" required />
+                                        <input type="text" name="username" id="username" value="<%=user.getUsername()%>" placeholder="Username per recensioni" maxlength="30" required autocomplete="off"/>
                                     </div>
                                     <div class="6u 12u(mobilep)">
-                                        <input type="email" name="email" id="email" value="<%=user.getEmail()%>" placeholder="Email" maxlength="50" required />
+                                        <input type="email" name="email" id="email" value="<%=user.getEmail()%>" placeholder="Email" maxlength="50" required autocomplete="off"/>
                                     </div>
                                     <div class="6u 12u(mobilep)">
-                                        <input type="password" name="pwd" id="pwd" value="" minlength="8" maxlength="30" placeholder="Password" onkeyup="compare()"/>
+                                        <input type="password" name="pwd" id="pwd" value="" minlength="8" maxlength="30" placeholder="Password" onkeyup="compare()" autocomplete="new-password"/>
                                     </div>    
                                     <div class="6u 12u(mobilep)">
-                                        <input type="password" name="repwd" id="repwd" value="" minlength="8" maxlength="30" placeholder="Ripeti password" onkeyup="compare()"/>
+                                        <input type="password" name="repwd" id="repwd" value="" minlength="8" maxlength="30" placeholder="Ripeti password" onkeyup="compare()" autocomplete="new-password"/>
                                     </div>
                                 </div>
                                 <div class="row uniform">

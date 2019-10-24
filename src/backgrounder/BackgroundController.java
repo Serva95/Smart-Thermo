@@ -61,7 +61,10 @@ public class BackgroundController implements ServletContextListener {
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = fromexec.readLine();
                 
-                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
+                /*nowreaded = ThreadLocalRandom.current().nextInt(15, 27 + 1)+"."+
+                        ThreadLocalRandom.current().nextInt(0, 3 + 1)+" "+
+                        ThreadLocalRandom.current().nextInt(45, 93 + 1)+"."+
+                        ThreadLocalRandom.current().nextInt(0, 3 + 1);*/
                 
                 daoFactory.beginTransaction();
                 BackgroundDAO backdao = daoFactory.getBackgroundDao();
@@ -77,6 +80,7 @@ public class BackgroundController implements ServletContextListener {
                 if (!ok){ throw new RuntimeException("reading or database error"); }
                 daoFactory.commitTransaction();
             } catch (Exception e) {
+                e.printStackTrace();
                 try {
                     if (daoFactory != null) {
                         daoFactory.rollbackTransaction();

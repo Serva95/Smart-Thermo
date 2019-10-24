@@ -3,6 +3,7 @@ package controller;
 import model.dao.DAOFactory;
 import model.dao.UtenteDAO;
 import model.dao.exception.DuplicatedObjectException;
+import model.mo.Sessione;
 import model.mo.Utente;
 import model.session.dao.LoggedUserDAO;
 import model.session.dao.SessionDAOFactory;
@@ -20,6 +21,7 @@ public class UtenteManagement {
     public static void profileView(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
+        Utente user;
         LoggedUser loggedUser;
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
@@ -28,23 +30,18 @@ public class UtenteManagement {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
             loggedUser = loggedUserDAO.find();
-            if(loggedUser == null) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
-            UtenteDAO userDAO = daoFactory.getUserDAO();
-            if(loggedUser.getUsername()!=null){
-                Utente user;
-                user = userDAO.findByUsername(loggedUser.getUsername());
+            loggedUser.setUniqid(loggedUserDAO.identify());
+            UtenteDAO utenteDAO = daoFactory.getUserDAO();
+            user = utenteDAO.findByUsername(loggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            Sessione sessioni[] = utenteDAO.findAllSessions(loggedUser);
+            daoFactory.commitTransaction();
+            request.setAttribute("sessioni", sessioni);
+            request.setAttribute("utente", user);
+            request.setAttribute("loggedOn",loggedUser!=null);
+            request.setAttribute("loggedUser", loggedUser);
+            request.setAttribute("viewUrl", "profiloUtente");
 
-                daoFactory.commitTransaction();
-                request.setAttribute("utente", user);
-                request.setAttribute("loggedOn",loggedUser!=null);
-                request.setAttribute("loggedUser", loggedUser);
-                request.setAttribute("viewUrl", "profiloUtente");
-            }else{
-                daoFactory.commitTransaction();
-                request.setAttribute("loggedOn",loggedUser!=null);
-                request.setAttribute("loggedUser", null);
-                request.setAttribute("viewUrl", "home");
-            }
         } catch (Exception e) {
             try {
                 if (daoFactory != null) {
@@ -65,27 +62,24 @@ public class UtenteManagement {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
         DAOFactory daoFactory = null;
+        Utente user;
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            if(loggedUser == null) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
+            loggedUser = loggedUserDAO.find();
+            loggedUser.setUniqid(loggedUserDAO.identify());
             UtenteDAO utenteDAO = daoFactory.getUserDAO();
-            if(loggedUser!=null){
-                Utente utente = utenteDAO.findByUserMail(loggedUser.getMail());
-                daoFactory.commitTransaction();
-                request.setAttribute("utente", utente);
-                request.setAttribute("loggedOn", true);
-                request.setAttribute("loggedUser", loggedUser);
-                request.setAttribute("viewUrl", "profiloUtenteEdit");
-            }else{
-                request.setAttribute("loggedOn",loggedUser!=null);
-                request.setAttribute("loggedUser", loggedUser);
-                request.setAttribute("viewUrl", "home");
-            }
+            user = utenteDAO.findByUsername(loggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+
+            daoFactory.commitTransaction();
+            request.setAttribute("utente", user);
+            request.setAttribute("loggedOn", true);
+            request.setAttribute("loggedUser", loggedUser);
+            request.setAttribute("viewUrl", "profiloUtenteEdit");
         } catch (Exception e) {
             try {
                 if (daoFactory != null) {
@@ -107,19 +101,22 @@ public class UtenteManagement {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
         LoggedUser loggedUser;
+        Utente user;
         String applicationMessage = null;
         Boolean success;
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            if(loggedUser == null) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
             daoFactory.beginTransaction();
+            loggedUser = loggedUserDAO.find();
+            loggedUser.setUniqid(loggedUserDAO.identify());
             UtenteDAO utenteDAO = daoFactory.getUserDAO();
-            if(loggedUser!=null){
-                Utente au = utenteDAO.findByUserMail(loggedUser.getMail());
+            user = utenteDAO.findByUsername(loggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            if(user!=null){
+                Utente au = user;
                 Utente utente = new Utente();
                 long cod = Long.parseLong(request.getParameter("cod"));
                 utente.setCodice(cod);

@@ -1,20 +1,11 @@
 package loginner;
 
 import static controller.PasswordHash.*;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.security.MessageDigest;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import javax.xml.bind.DatatypeConverter;
 import model.dao.DAOFactory;
 import model.dao.UtenteDAO;
 import model.dao.exception.DuplicatedObjectException;
@@ -54,7 +45,7 @@ public class RegisterManagement{
         }
     }
     
-    
+    /**register new user in the system*/
     public static void insert(HttpServletRequest request, HttpServletResponse response){
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
@@ -117,179 +108,6 @@ public class RegisterManagement{
     }
     
     /*
-    public static void update(HttpServletRequest request, HttpServletResponse response){
-        
-        SessionDAOFactory sessionDAOFactory;
-        DAOFactory daoFactory = null;
-        LoggedUser loggedUser;
-        String applicationMessage = null;
-        Boolean success;
-        
-        Logger logger = LogService.getApplicationLogger();
-        
-        try {
-            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
-            sessionDAOFactory.initSession(request, response);
-            
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            
-            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
-            daoFactory.beginTransaction();
-            UtenteDAO utenteDAO = daoFactory.getUserDAO();
-            
-            if(loggedUser!=null && loggedUser.getTipo()==1){
-                Utente au = utenteDAO.findByUserMail(loggedUser.getMail());
-                Utente utente = new Utente();
-                
-                long cod = Long.parseLong(request.getParameter("cod"));
-                utente.setCodice(cod);
-                
-                String email = request.getParameter("email");
-                String pwd = request.getParameter("pwd");
-                String phone = request.getParameter("phone");
-                String campanello = request.getParameter("campanello");
-                String address = request.getParameter("address");
-                String citta = request.getParameter("citta");
-                String name = request.getParameter("name");
-                String surname = request.getParameter("surname");
-                String username = request.getParameter("username");
-                LocalDate data = LocalDate.parse(request.getParameter("birthday"));
-                
-                int cap;
-                try{
-                    cap = Integer.parseInt(request.getParameter("cap"));
-                }catch (NumberFormatException e){
-                    cap=0;
-                }
-                
-                boolean cambiamenti = false;
-                
-                if(au.getEmail().equalsIgnoreCase(email) || "".equals(email)){utente.setEmail(au.getEmail());
-                }else{ utente.setEmail(email); cambiamenti = true;}
-                
-                utente.setCellulare((au.getCellulare().equalsIgnoreCase(phone) || "".equals(phone))? au.getCellulare(): phone);
-                utente.setNome_campanello((au.getNome_campanello().equalsIgnoreCase(campanello) || "".equals(campanello))? au.getNome_campanello(): campanello);
-                utente.setNome((au.getNome().equalsIgnoreCase(name) || "".equals(name))? au.getNome(): name);
-                utente.setCognome((au.getCognome().equalsIgnoreCase(surname) || "".equals(surname))? au.getCognome(): surname);
-                utente.setUsername((au.getUsername().equalsIgnoreCase(username) || "".equals(username))? au.getUsername(): username);
-                utente.setCittà((au.getCittà().equalsIgnoreCase(citta) || "".equals(citta))? au.getCittà(): citta);
-                utente.setVia((au.getVia().equalsIgnoreCase(address) || "".equals(address))? au.getVia(): address);
-                utente.setCap((au.getCap()==cap || cap == 0)? au.getCap(): cap);
-                utente.setData_nascita((au.getData_nascita().isEqual(data))? au.getData_nascita(): data);
-                
-                if(!"".equals(pwd)){utente.setPassword(passwordhash(pwd)); cambiamenti = true;}else{utente.setPassword(au.getPassword());}
-                
-                Part filePart = request.getPart("profilepic");
-                String foto = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                
-                String picname;
-                String nome_pic = utente.getEmail();
-                MessageDigest todig = MessageDigest.getInstance("SHA1");
-                byte[] pichash = todig.digest(nome_pic.getBytes(StandardCharsets.UTF_8));
-                picname = DatatypeConverter.printHexBinary(pichash);
-                
-                String filename = System.getProperty("user.home")
-                        + File.separatorChar + "Documenti"
-                        + File.separatorChar + "NetBeansProjects"
-                        + File.separatorChar + "eatit"
-                        + File.separatorChar + "web"
-                        + File.separatorChar + "pic"
-                        + File.separatorChar
-                        + picname + ".jpg";
-                
-                File file = new File(filename);
-                utente.setUrlfoto(picname+".jpg");
-                try {
-                    utenteDAO.update(utente);
-                    applicationMessage = "<h3>Hai aggiornato i tuoi dati con successo!</h3>";
-                    success = true;
-                } catch (DuplicatedObjectException e) {
-                    applicationMessage = "<h3>La mail da te usata è già esistente per un altro utente riprova con una diversa</h3>";
-                    success = false;
-                    logger.log(Level.INFO, "Tentativo di update di user già esistente");
-                }
-                
-                if(success){
-                    File fileold = new File(System.getProperty("user.home")
-                            + File.separatorChar + "Documenti"
-                            + File.separatorChar + "NetBeansProjects"
-                            + File.separatorChar + "eatit"
-                            + File.separatorChar + "web"
-                            + File.separatorChar + "pic"
-                            + File.separatorChar
-                            + au.getUrlfoto());
-                    if(!"".equals(foto)){
-                        try(InputStream fileContent = filePart.getInputStream()){
-                            Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        }
-                        if(fileold.exists() && !fileold.getName().equalsIgnoreCase(picname+".jpg")){
-                            fileold.delete();
-                        }
-                    }else{
-                        if(!file.exists()){
-                            if(!fileold.renameTo(file)){
-                                throw new RuntimeException("errore rinomina file");
-                            }
-                            utente.setUrlfoto(foto);
-                        }else{
-                            utente.setUrlfoto(au.getUrlfoto());
-                        }
-                    }
-                    
-                    
-                    
-                    request.setAttribute("viewUrl", "response");
-                    request.setAttribute("loggedUser", loggedUser);
-                    
-                    if(cambiamenti){
-                        loggedUserDAO.destroy();
-                        request.setAttribute("viewUrl", "home");
-                        request.setAttribute("loggedUser", null);
-                    }
-                    
-                    daoFactory.commitTransaction();
-                    
-                    request.setAttribute("applicationMessage", applicationMessage);
-                    request.setAttribute("loggedOn", !cambiamenti);
-                    request.setAttribute("email", loggedUser.getMail());
-                    request.setAttribute("success", success);
-                }else{
-                    request.setAttribute("applicationMessage", applicationMessage);
-                    request.setAttribute("loggedOn", loggedUser!=null);
-                    request.setAttribute("success", success);
-                    request.setAttribute("loggedUser", loggedUser);
-                    request.setAttribute("email", utente.getEmail());
-                    request.setAttribute("viewUrl", "response");
-                }
-            }else{
-                
-                request.setAttribute("applicationMessage", applicationMessage);
-                request.setAttribute("loggedOn", loggedUser!=null);
-                request.setAttribute("viewUrl", "home");
-            }
-            
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
-            try {
-                if (daoFactory != null) {
-                    daoFactory.rollbackTransaction();
-                }
-            } catch (Throwable t) {
-            }
-            throw new RuntimeException(e);
-            
-        } finally {
-            try {
-                if (daoFactory != null) {
-                    daoFactory.closeTransaction();
-                }
-            } catch (Throwable t) {
-            }
-        }
-    }
-    
-    
     public static void delete(HttpServletRequest request, HttpServletResponse response) {
         
         SessionDAOFactory sessionDAOFactory;

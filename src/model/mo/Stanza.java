@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 public class Stanza {
 
-    private String name;
+    private String nome;
     private int id;
     private Lettura actualRead;
     private double maxTemp;
@@ -15,13 +15,13 @@ public class Stanza {
     public Stanza(){}
 
     public Stanza(String name, int id){
-        this.name = name;
+        this.nome = name;
         this.id = id;
     }
 
-    public String getName() { return name; }
+    public String getNome() { return nome; }
 
-    public void setName(String name) { this.name = name; }
+    public void setNome(String name) { this.nome = name; }
 
     public int getId() { return id; }
 

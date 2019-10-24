@@ -1,6 +1,9 @@
 package model.session.dao.CookieImpl;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.*;
@@ -25,14 +28,19 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
     
     @Override
     public LoggedUser create(String email, String username, boolean rememberMe, int days) {
+        String uniqid = identify();
         LoggedUser loggedUser = new LoggedUser();
+        if(uniqid == "") {
+            uniqid = createid();
+        }
         loggedUser.setMail(email);
         loggedUser.setUsername(username);
+        loggedUser.setUniqid(uniqid);
         Cookie cookie;
         cookie = new Cookie("loggedUser", encode(loggedUser));
         cookie.setPath("/");
-        if(rememberMe){
-            cookie.setMaxAge(days*24*60*60); //una settimana di vita
+        if(rememberMe && days>=0 && days<370){
+            cookie.setMaxAge(days*24*3600); //days giorni di vita
         }else{
             cookie.setMaxAge(-1); //mettere -1 per lasciare in vita fino alla chiusura del browser
         }
@@ -70,20 +78,35 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
         }
         return loggedUser;
     }
+
+    @Override
+    public String identify(){
+        Cookie[] cookies = request.getCookies();
+        String uniqid = "";
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("uniqid")) {
+                    uniqid = cookies[i].getValue();
+                }
+            }
+        }
+        return uniqid;
+    }
+
+    private String createid(){
+        SecureRandom sr = new SecureRandom();
+        byte[] salt = new byte[32];
+        sr.nextBytes(salt);
+        Cookie cookie;
+        cookie = new Cookie("uniqid", DatatypeConverter.printHexBinary(salt));
+        cookie.setPath("/");
+        cookie.setMaxAge(86400*365*15); //15 anni di vita
+        response.addCookie(cookie);
+        return DatatypeConverter.printHexBinary(salt);
+    }
     
     private String encode(LoggedUser loggedUser) {
         String encodedLoggedUser = loggedUser.getMail() + "#" + loggedUser.getUsername();
-        /*try {
-            byte[] keyBytes = "123456789abcdefg".getBytes();
-            byte[] ivBytes = "123456789abcdefg".getBytes();
-            SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
-            IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
-            byte[] plainText = encodedLoggedUser.getBytes();
-            byte[] cipherText = cipher.doFinal(plainText);
-            encodedLoggedUser = DatatypeConverter.printHexBinary(cipherText);
-        } catch (Exception ex) {ex.printStackTrace(); }*/
         return encodedLoggedUser;
     }
     

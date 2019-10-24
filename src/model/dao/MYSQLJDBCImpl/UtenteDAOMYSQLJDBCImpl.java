@@ -1,14 +1,14 @@
 package model.dao.MYSQLJDBCImpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import com.mysql.jdbc.JDBC4CallableStatement;
+import model.mo.Sessione;
 import model.mo.Utente;
 import model.dao.UtenteDAO;
 import model.dao.exception.DuplicatedObjectException;
+import model.session.mo.LoggedUser;
 
 public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
     
@@ -217,31 +217,146 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
         }
         return user;
     }
-    
+
+    @Override
+    public void beginLoginSession(long codice, LoggedUser loggedUser, LocalDate expire) {
+        PreparedStatement ps;
+        try {
+            String sql;
+            int i;
+            sql     = " SELECT hash "
+                    + " FROM loggeduser "
+                    + " WHERE "
+                    + " hash = ? "
+                    + " AND codice = ?";
+
+            ps = conn.prepareStatement(sql);
+            i = 1;
+            ps.setString(i++, loggedUser.getUniqid());
+            ps.setLong(i++, codice);
+            boolean exist;
+            try (ResultSet resultSet = ps.executeQuery()) {
+                exist = resultSet.next();
+            }
+            if (exist) {
+                sql     = " UPDATE loggeduser "
+                        + " SET "
+                        + " codice = ?, "
+                        + " hash = ?, "
+                        + " remember = ?, "
+                        + " loginDate = ? "
+                        + " WHERE hash = ? ";
+
+                ps = conn.prepareStatement(sql);
+                i = 1;
+                ps.setLong(i++, codice);
+                ps.setString(i++, loggedUser.getUniqid());
+                ps.setDate(i++, Date.valueOf(expire));
+                ps.setDate(i++, Date.valueOf(LocalDate.now()));
+                ps.setString(i++, loggedUser.getUniqid());
+                ps.executeUpdate();
+            }else{
+                sql     = " INSERT INTO loggeduser "
+                        + "( codice, "
+                        + "hash, "
+                        + "remember, "
+                        + "loginDate)"
+                        + " VALUES (?,?,?,?)";
+
+                ps = conn.prepareStatement(sql);
+                i = 1;
+                ps.setLong(i++, codice);
+                ps.setString(i++, loggedUser.getUniqid());
+                ps.setDate(i++, Date.valueOf(expire));
+                ps.setDate(i++, Date.valueOf(LocalDate.now()));
+                ps.executeUpdate();
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean findLoginSession(long codice, LoggedUser loggedUser) {
+        PreparedStatement ps;
+        boolean exist = false;
+        try {
+            String sql;
+            int i;
+            sql     = " SELECT hash "
+                    + " FROM loggeduser "
+                    + " WHERE "
+                    + " hash = ? "
+                    + " AND codice = ?";
+
+            ps = conn.prepareStatement(sql);
+            i = 1;
+            ps.setString(i++, loggedUser.getUniqid());
+            ps.setLong(i++, codice);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                exist = resultSet.next();
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return exist;
+    }
+
+    @Override
+    public Sessione[] findAllSessions(LoggedUser loggedUser) {
+        PreparedStatement ps;
+        ArrayList<Sessione> tmp = new ArrayList();
+        Sessione sessioni[];
+        try {
+            String sql;
+            int i;
+            sql =   " SELECT loggeduser.hash AS hash," +
+                    " loggeduser.remember AS remember," +
+                    " loggeduser.loginDate AS loginDate," +
+                    " utente.email as email" +
+                    " FROM loggeduser" +
+                    " INNER JOIN utente" +
+                    " ON loggeduser.codice=utente.codice" +
+                    " WHERE email = ? ";
+
+            ps = conn.prepareStatement(sql);
+            i = 1;
+            ps.setString(i++, loggedUser.getMail());
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    Sessione sessione = readSession(rs);
+                    tmp.add(sessione);
+                }
+            }
+            sessioni = new Sessione[tmp.size()];
+            sessioni = tmp.toArray(sessioni);
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sessioni;
+    }
+
     Utente read (ResultSet rs){
         
         Utente user = new Utente();
         try {
             user.setCodice(rs.getLong("codice"));
-        }catch (SQLException sqle){}
-        
-        try {
             user.setEmail(rs.getString("email"));
-        } catch (SQLException sqle) {
-        }
-        try {
             user.setUsername(rs.getString("username"));
-        } catch (SQLException sqle) {
-        }
-        try {
             user.setPassword(rs.getString("password"));
-        } catch (SQLException sqle) {
-        }
-        try {
             user.setDeleted(rs.getString("deleted").equals("1"));
-        } catch (SQLException sqle) {
-        }
+        } catch (SQLException sqle) { sqle.printStackTrace(); }
         return user;
     }
-    
+
+    Sessione readSession (ResultSet rs){
+
+        Sessione sessione = null;
+        try {
+            sessione = new Sessione(rs.getString("hash"),
+                    rs.getDate("remember").toLocalDate(),
+                    rs.getDate("loginDate").toLocalDate());
+        } catch (SQLException e) { e.printStackTrace(); }
+        return sessione;
+    }
 }

@@ -7,8 +7,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b344da00-635b-41e4-b32f-9e060e8c2282" name="Default Changelist" comment="removed register option, changed login method from email to username, removed help link in top bar, corrected deg in js graphs">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/mo/Sessione.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/gestioneStanze.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/registrazioneStanza.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6d805f2d-5c92-40b4-adad-41411fad33f6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6d805f2d-5c92-40b4-adad-41411fad33f6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/profiloUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/profiloUtente.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/profiloUtenteEdit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ThermoSmart_war_exploded/profiloUtenteEdit.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backgrounder/BackgroundController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/backgrounder/BackgroundController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/HomeManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/HomeManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/TermoManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/TermoManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/UtenteManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/UtenteManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/loginner/LoginManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/LoginManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginner/RegisterManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/BackgroundDAOMYSQLJDBCImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/BackgroundDAOMYSQLJDBCImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/MYSQLJDBCImpl/UtenteDAOMYSQLJDBCImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dao/UtenteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/mo/Stanza.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mo/Stanza.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/session/dao/CookieImpl/LoggedUserDAOCookieImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/session/dao/CookieImpl/LoggedUserDAOCookieImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/session/dao/LoggedUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/session/dao/LoggedUserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/session/mo/LoggedUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/session/mo/LoggedUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/config/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/config/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/profiloUtente.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/profiloUtente.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/profiloUtenteEdit.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/profiloUtenteEdit.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +49,37 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand />
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL for 5.1 - @localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL for 5.1 - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL for 5.1 - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="thermo: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL for 5.1 - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="thermo: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="loggeduser: table" type="dbc44a63:MariaImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL for 5.1 - @localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="thermo: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="utente: table" type="dbc44a63:MariaImplModel$Table" />
+      </path>
+    </expand>
     <select />
   </component>
   <component name="DefaultGradleProjectSettings">
@@ -78,7 +130,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/mysql-connector-java-5.1.47.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mysql-connector-java-5.1.47-bin.jar" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -90,6 +142,9 @@
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="controller" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\serva\Documents\Intellij\ThermoSmart\web" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -397,6 +452,16 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -443,7 +508,12 @@
       <workItem from="1570658409845" duration="18000" />
       <workItem from="1570658497333" duration="605000" />
       <workItem from="1571156746933" duration="600000" />
-      <workItem from="1571491210406" duration="1689000" />
+      <workItem from="1571491210406" duration="1912000" />
+      <workItem from="1571659829169" duration="14606000" />
+      <workItem from="1571736087652" duration="6038000" />
+      <workItem from="1571866252734" duration="3728000" />
+      <workItem from="1571903997994" duration="2413000" />
+      <workItem from="1571936596631" duration="6288000" />
     </task>
     <servers />
   </component>
@@ -466,9 +536,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed register option, changed login method from email to username, removed help link in top bar, corrected deg in js graphs" />
     <option name="LAST_COMMIT_MESSAGE" value="removed register option, changed login method from email to username, removed help link in top bar, corrected deg in js graphs" />
-  </component>
-  <component name="antWorkspaceConfiguration">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="FILTER_TARGETS" value="false" />
   </component>
 </project>

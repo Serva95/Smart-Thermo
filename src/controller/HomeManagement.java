@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import model.dao.DAOFactory;
 import model.dao.TempsDAO;
+import model.dao.UtenteDAO;
 import model.mo.Lettura;
+import model.mo.Utente;
 import services.config.*;
 import model.session.mo.LoggedUser;
 import model.session.dao.SessionDAOFactory;
@@ -83,7 +85,8 @@ public class HomeManagement {
             } catch (Throwable t) {}
         }
     }
-    
+
+    /**update dynamically all the graphs when "gettempvie" page is loaded*/
     public static void updateTemps(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
@@ -122,7 +125,8 @@ public class HomeManagement {
             } catch (Throwable t) {}
         }
     }
-    
+
+    /**send actual read of temp and hum*/
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         String nowreaded;
@@ -167,7 +171,9 @@ public class HomeManagement {
     /**first call for load actual temp page*/
     public static void gettempview(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        LoggedUser loggedUser;
+        LoggedUser cookieLoggedUser;
+        Utente loggedUser;
+        String uniqid;
         DAOFactory daoFactory = null;
         try {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
@@ -176,16 +182,19 @@ public class HomeManagement {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
             LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            loggedUser = loggedUserDAO.find();
-            if(loggedUser == null) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            cookieLoggedUser = loggedUserDAO.find();
+            cookieLoggedUser.setUniqid(loggedUserDAO.identify());
+            UtenteDAO utenteDAO = daoFactory.getUserDAO();
+            loggedUser = utenteDAO.findByUsername(cookieLoggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(loggedUser.getCodice(),cookieLoggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             Lettura[] days = tempsdao.Readtoday(LocalDate.now());
             Lettura[] meds = tempsdao.Readmeds(7);
             daoFactory.commitTransaction();
             
             request.setAttribute("days", days);
             request.setAttribute("meds", meds);
-            request.setAttribute("loggedOn",loggedUser!=null);
-            request.setAttribute("loggedUser", loggedUser);
+            request.setAttribute("loggedOn",cookieLoggedUser!=null);
+            request.setAttribute("loggedUser", cookieLoggedUser);
             request.setAttribute("viewUrl", "actualtemp");
         } catch (Exception e) {
             try {

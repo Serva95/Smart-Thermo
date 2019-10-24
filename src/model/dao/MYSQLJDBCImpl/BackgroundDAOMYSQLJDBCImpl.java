@@ -19,8 +19,9 @@ public class BackgroundDAOMYSQLJDBCImpl implements BackgroundDAO {
     public boolean insert(Variabili var) throws DuplicatedObjectException {
         PreparedStatement ps;
         try {
-            String sql     = " INSERT INTO temps "
-                    + "( temp, hum ) VALUES (? , ?)";
+            String sql  = " INSERT INTO temps "
+                        + "( temp, hum ) "
+                        + "VALUES (? , ?)";
             
             ps = conn.prepareStatement(sql);
             int i = 1;

@@ -11,5 +11,7 @@ public interface LoggedUserDAO {
   public void destroy();
 
   public LoggedUser find();
+
+  public String identify();
   
 }

@@ -3,6 +3,7 @@ package loginner;
 import static controller.MailPack.sendmail;
 import static controller.PasswordHash.*;
 
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +24,7 @@ public class LoginManagement {
     
     private LoginManagement(){ }
     
-    /*LOGAOUT VALIDO PER TUTTI GLI UTENTI*/
+    /**logout for all users*/
     public static void logoutUser(HttpServletRequest request, HttpServletResponse response) {
         
         SessionDAOFactory sessionDAOFactory;
@@ -42,7 +43,7 @@ public class LoginManagement {
         request.setAttribute("viewUrl", "home");
     }
     
-    /*SEZIONE PER L'UTENTE*/
+    /**login view page for the user*/
     public static void view(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
@@ -60,7 +61,8 @@ public class LoginManagement {
             throw new RuntimeException(e);
         }
     }
-    
+
+    /**login section for the registered user*/
     public static void loginUser(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
@@ -76,7 +78,8 @@ public class LoginManagement {
             String uname = request.getParameter("username");
             String pwd = request.getParameter("pwd");
             boolean rememberMe = ((request.getParameter("remain")!=null)? request.getParameter("remain"): "").equalsIgnoreCase("on");
-            int days = Integer.parseInt(request.getParameter("days"));
+            int days = 0;
+            if(rememberMe)try {days = Integer.parseInt(request.getParameter("days"));}catch (NumberFormatException e){days=0;}
 
             UtenteDAO userDAO = daoFactory.getUserDAO();
             Utente user = userDAO.findByUsername(uname);
@@ -91,8 +94,10 @@ public class LoginManagement {
                 request.setAttribute("viewUrl", "accedi");
             } else {
                 loggedUser = loggedUserDAO.create(user.getEmail(), user.getUsername(), rememberMe, days);
+                userDAO.beginLoginSession(user.getCodice(), loggedUser, LocalDate.now().plusDays(days));
                 request.setAttribute("viewUrl", "home");
             }
+
             daoFactory.commitTransaction();
             request.setAttribute("loggedOn",loggedUser!=null);
             request.setAttribute("loggedUser", loggedUser);
@@ -114,73 +119,4 @@ public class LoginManagement {
         }
     }
 
-    /*
-    public static void loginAdmin(HttpServletRequest request, HttpServletResponse response) {
-        
-        SessionDAOFactory sessionDAOFactory;
-        DAOFactory daoFactory = null;
-        LoggedUser loggedUser;
-        String applicationMessage = null;
-        
-        Logger logger = LogService.getApplicationLogger();
-        
-        try {
-            
-            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
-            sessionDAOFactory.initSession(request, response);
-            
-            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
-            
-            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
-            daoFactory.beginTransaction();
-            
-            String mail = request.getParameter("mail");
-            String pwd = request.getParameter("pwd");
-            
-            //if(mail.equalsIgnoreCase("serva95@icloud.com")){
-            //    sendmail();
-            //}
-            
-            AdminDAO adminDAO = daoFactory.getAdminDao();
-            Admin admin = adminDAO.findByAdminMail(mail);
-            boolean verified = false;
-            try{
-                verified = passwordVerify(pwd, admin.getPassword());
-            }catch (NullPointerException e){}
-            if (admin == null || !verified) {
-                loggedUserDAO.destroy();
-                applicationMessage = "Username o password errati!";
-                loggedUser=null;
-                request.setAttribute("viewUrl", "accediAdmin");
-            } else {
-                loggedUser = loggedUserDAO.create(admin.getEmail(), admin.getNome(), admin.getUsername(), (byte)0, false);
-                request.setAttribute("viewUrl", "home");
-            }
-            
-            daoFactory.commitTransaction();
-            
-            request.setAttribute("loggedOn",loggedUser!=null);
-            request.setAttribute("loggedUser", loggedUser);
-            request.setAttribute("applicationMessage", applicationMessage);
-            
-            
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Controller Error", e);
-            try {
-                if (daoFactory != null) {
-                    daoFactory.rollbackTransaction();
-                }
-            } catch (Throwable t) {
-            }
-            throw new RuntimeException(e);
-            
-        } finally {
-            try {
-                if (daoFactory != null) {
-                    daoFactory.closeTransaction();
-                }
-            } catch (Throwable t) {
-            }
-        }
-    }*/
 }
