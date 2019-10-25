@@ -11,6 +11,8 @@ public class Configuration {
     public static final String DAO_IMPL=DAOFactory.MYSQLJDBCIMPL;
     public static final String DATABASE_DRIVER="com.mysql.jdbc.Driver";
     //public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=serva-1995-orologio";
+	
+	//public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=external&password=thermo_1995_pi@raspberry";
 
     public static final String DATABASE_URL="jdbc:mysql://localhost/thermo?user=root&password=";
 
