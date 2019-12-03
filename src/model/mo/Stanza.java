@@ -9,6 +9,7 @@ public class Stanza {
     private Lettura actualRead;
     private double maxTemp;
     private double minTemp;
+    private double absoluteMin;
     private LocalTime[] turnOnTimes;
     private LocalTime[] turnOffTimes;
 
@@ -47,5 +48,7 @@ public class Stanza {
 
     public void setTurnOffTimes(LocalTime[] turnOffTimes) { this.turnOffTimes = turnOffTimes; }
 
+    public double getAbsoluteMin() { return absoluteMin; }
 
+    public void setAbsoluteMin(double absoluteMin) { this.absoluteMin = absoluteMin; }
 }

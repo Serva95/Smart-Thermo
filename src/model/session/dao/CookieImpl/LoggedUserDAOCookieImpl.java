@@ -1,13 +1,6 @@
 package model.session.dao.CookieImpl;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.crypto.*;
-import javax.crypto.spec.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +23,7 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
     public LoggedUser create(String email, String username, boolean rememberMe, int days) {
         String uniqid = identify();
         LoggedUser loggedUser = new LoggedUser();
-        if(uniqid == "") {
+        if(uniqid == "" || uniqid.length()<128) {
             uniqid = createid();
         }
         loggedUser.setMail(email);
@@ -95,7 +88,7 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
 
     private String createid(){
         SecureRandom sr = new SecureRandom();
-        byte[] salt = new byte[32];
+        byte[] salt = new byte[64];
         sr.nextBytes(salt);
         Cookie cookie;
         cookie = new Cookie("uniqid", DatatypeConverter.printHexBinary(salt));

@@ -41,7 +41,7 @@
                             <br>
                             <br>
                             <div class="9u 12u(mobilep)">
-                                <h3>Select the number of data you want to see for the mediums</h3>
+                                <h3>Scegli il numero di dati che vuoi vedere per le medie</h3>
                             </div>
                             <div class="3u 12u(mobilep)">
                                 <select id="datanumber" onchange="updatedata(this.value)">
@@ -73,8 +73,8 @@
                 $.post('Connector', {livesearch: "gettemp"}, function(data) {
                     document.getElementById("ls").innerHTML="<h2><b>TEMP:</b> "+data+"</h2>";
                 });
-                setTimeout( updateReal, 180000 );
-                //180 -> 480 lectures per day - once every 3 minutes
+                setTimeout( updateReal, 300000 );
+                //300 -> 288 lectures per day - once every 5 minutes
             }
             function updateTemps(){
                 $.post('Connector', {livesearch: "updateTemps", dati:tempChart.data.labels[tempChart.data.labels.length - 1]}, function(data) {

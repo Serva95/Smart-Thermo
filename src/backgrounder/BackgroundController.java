@@ -6,6 +6,8 @@ import java.util.concurrent.*;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+import controller.TempReader;
 import model.dao.BackgroundDAO;
 import model.dao.DAOFactory;
 import services.config.Configuration;
@@ -15,8 +17,9 @@ public class BackgroundController implements ServletContextListener {
     
     private ScheduledExecutorService scheduler;
     private String nowreaded = "";
-    private Variabili var = new Variabili();
-    
+    private TempReader tempReader = new TempReader();
+    public static Variabili var = new Variabili();
+
     @Override
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -53,29 +56,28 @@ public class BackgroundController implements ServletContextListener {
             try{
                 daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
                 
-                String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
+                /*String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
                 Process p = new ProcessBuilder(command).start();
                 try {
                     p = Runtime.getRuntime().exec(command);
                 } catch (Exception e) { throw new RuntimeException(e); }
                 BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 nowreaded = fromexec.readLine();
-                
-                /*nowreaded = ThreadLocalRandom.current().nextInt(15, 27 + 1)+"."+
-                        ThreadLocalRandom.current().nextInt(0, 3 + 1)+" "+
-                        ThreadLocalRandom.current().nextInt(45, 93 + 1)+"."+
-                        ThreadLocalRandom.current().nextInt(0, 3 + 1);*/
-                
-                daoFactory.beginTransaction();
-                BackgroundDAO backdao = daoFactory.getBackgroundDao();
+
+                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
+
+                var.setActualtemp(nowreaded.substring(0, 4));
+                var.setActualhum(nowreaded.substring(5));
                 double actualhumdou = Double.parseDouble(nowreaded.substring(5));
+                double actualtempdou = Double.parseDouble(var.getActualtemp());
                 if (actualhumdou < 101.1) {
                     var.setActualhumdbl(actualhumdou);
                     var.setActualtemphum(nowreaded);
-                    var.setActualtemp(nowreaded.substring(0, 4));
-                    var.setActualhum(nowreaded.substring(5));
-                    var.setActualtempdbl(Double.parseDouble(var.getActualtemp()));
-                }
+                    var.setActualtempdbl(actualtempdou);
+                }*/
+                var = tempReader.getRead(var);
+                daoFactory.beginTransaction();
+                BackgroundDAO backdao = daoFactory.getBackgroundDao();
                 boolean ok = backdao.insert(var);
                 if (!ok){ throw new RuntimeException("reading or database error"); }
                 daoFactory.commitTransaction();

@@ -25,8 +25,8 @@ public class BackgroundDAOMYSQLJDBCImpl implements BackgroundDAO {
             
             ps = conn.prepareStatement(sql);
             int i = 1;
-            ps.setDouble(i++, var.getActualtempdbl());
-            ps.setDouble(i++, var.getActualhumdbl());
+            ps.setDouble(i++, var.getLettura().getTemp());
+            ps.setDouble(i++, var.getLettura().getHum());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

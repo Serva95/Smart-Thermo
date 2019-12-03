@@ -1,9 +1,7 @@
 package controller;
 
 import backgrounder.Variabili;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +18,8 @@ import services.config.*;
 import model.session.mo.LoggedUser;
 import model.session.dao.SessionDAOFactory;
 import model.session.dao.LoggedUserDAO;
+
+import static backgrounder.BackgroundController.var;
 
 public class HomeManagement {
     
@@ -43,7 +43,7 @@ public class HomeManagement {
     }
 
     /**per quanti giorni di media mi servono*/
-    public static void getmeds(HttpServletRequest request, HttpServletResponse response) {
+    public synchronized static void getmeds(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
         Variabili var = new Variabili();
@@ -130,35 +130,13 @@ public class HomeManagement {
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         String nowreaded;
-        Variabili var = new Variabili();
+        TempReader tempReader = new TempReader();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            boolean done = true;
-            while(done){
-                String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
-                Process p = new ProcessBuilder(command).start();
-                try {
-                    p = Runtime.getRuntime().exec(command);
-                } catch (IOException e) { throw new RuntimeException(e); }
-                BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                nowreaded = "" + fromexec.readLine();
-
-                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
-
-                var.setActualhum(nowreaded.substring(5));
-                var.setActualtemp(nowreaded.substring(0, 4));
-                double actualhumdou = Double.parseDouble(var.getActualhum());
-                double actualtempdou = Double.parseDouble(var.getActualtemp());
-                if (actualhumdou < 99.9 && actualtempdou < 99.9) {
-                    var.setActualhumdbl(actualhumdou);
-                    var.setActualtempdbl(actualtempdou);
-                    var.setActualtemphum(nowreaded);
-                    done = false;
-                }
-            }
-            String total = var.getActualtemp() + "&deg; <b>HUM:</b> " + var.getActualhum() + "&percnt; - AT " 
-                    + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            var = tempReader.getRead(var);
+            String total = var.getActualtemp() + "&deg; <b>HUM:</b> " + var.getActualhum() + "&percnt; - AT "
+                    + var.getLettura().getReadingdatetime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);
                 out.flush();
