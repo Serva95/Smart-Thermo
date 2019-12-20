@@ -37,6 +37,11 @@
                 <div class="row">
                     <div class="12u">
                         <section class="box_less_space">
+                            <%if(applicationMessage!=null){
+                                if(applicationMessage.length()>10){
+                                out.print("<h2>"+applicationMessage+"</h2>");
+                                }
+                            } %>
                             <header>
                                 <h3>Modifica Profilo</h3>
                             </header>
@@ -52,9 +57,12 @@
                                     </div>
                                     <div class="6u 12u(mobilep)">
                                         <input type="password" name="pwd" id="pwd" value="" minlength="8" maxlength="30" placeholder="Password" onkeyup="compare()" autocomplete="new-password"/>
-                                    </div>    
+                                    </div>
                                     <div class="6u 12u(mobilep)">
                                         <input type="password" name="repwd" id="repwd" value="" minlength="8" maxlength="30" placeholder="Ripeti password" onkeyup="compare()" autocomplete="new-password"/>
+                                    </div>
+                                    <div class="6u 12u(mobilep)">
+                                        <input type="password" name="oldpwd" id="oldpwd" value="" minlength="8" maxlength="30" placeholder="La tua password attuale" required autocomplete="password"/>
                                     </div>
                                 </div>
                                 <div class="row uniform">

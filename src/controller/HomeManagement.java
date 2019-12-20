@@ -129,7 +129,6 @@ public class HomeManagement {
     /**send actual read of temp and hum*/
     public static void gettemp(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
-        String nowreaded;
         TempReader tempReader = new TempReader();
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);

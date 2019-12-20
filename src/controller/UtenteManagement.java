@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static controller.PasswordHash.passwordHashPBKDF2;
+import static controller.PasswordHash.passwordVerifyPBKDF2;
 
 public class UtenteManagement {
 
@@ -103,7 +104,7 @@ public class UtenteManagement {
         LoggedUser loggedUser;
         Utente user;
         String applicationMessage = null;
-        Boolean success;
+        Boolean success = false;
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
@@ -122,39 +123,52 @@ public class UtenteManagement {
                 utente.setCodice(cod);
                 String email = request.getParameter("email");
                 String pwd = request.getParameter("pwd");
+                String oldpwd = request.getParameter( "oldpwd");
                 String username = request.getParameter("username");
                 boolean cambiamenti = false;
-                if(au.getEmail().equalsIgnoreCase(email) || "".equals(email)) utente.setEmail(au.getEmail());
-                else{
-                    utente.setEmail(email);
-                    cambiamenti = true;
-                }
-                utente.setUsername((au.getUsername().equalsIgnoreCase(username) || "".equals(username))? au.getUsername(): username);
-                if(!"".equals(pwd)){
-                    utente.setPassword(passwordHashPBKDF2(pwd));
-                    cambiamenti = true;
-                }else utente.setPassword(au.getPassword());
-                try {
-                    utenteDAO.update(utente);
-                    applicationMessage = "<h3>Hai aggiornato i tuoi dati con successo!</h3>";
-                    success = true;
-                } catch (DuplicatedObjectException e) {
-                    applicationMessage = "<h3>La mail da te usata è già esistente per un altro utente riprova con una diversa</h3>";
-                    success = false;
+                boolean pswdError = true;
+                if(passwordVerifyPBKDF2(oldpwd, user.getPassword())) {
+                    pswdError = false;
+                    if (au.getEmail().equalsIgnoreCase(email) || "".equals(email)) utente.setEmail(au.getEmail());
+                    else {
+                        utente.setEmail(email);
+                        cambiamenti = true;
+                    }
+                    utente.setUsername((au.getUsername().equalsIgnoreCase(username) || "".equals(username)) ? au.getUsername() : username);
+                    if (!"".equals(pwd)) {
+                        utente.setPassword(passwordHashPBKDF2(pwd));
+                        cambiamenti = true;
+                    } else utente.setPassword(au.getPassword());
+                    try {
+                        utenteDAO.update(utente);
+                        applicationMessage = "<h3>Hai aggiornato i tuoi dati con successo!</h3>";
+                        success = true;
+                    } catch (DuplicatedObjectException e) {
+                        applicationMessage = "<h3>La mail da te usata è già esistente per un altro utente riprova con una diversa</h3>";
+                        success = false;
+                    }
                 }
                 if(success){
-                    request.setAttribute("viewUrl", "response");
+                    request.setAttribute("viewUrl", "profiloUtenteEdit");
                     request.setAttribute("loggedUser", loggedUser);
                     if(cambiamenti){
                         loggedUserDAO.destroy();
                         request.setAttribute("viewUrl", "home");
                         request.setAttribute("loggedUser", null);
+                    }else{
+                        request.setAttribute("utente", user);
                     }
                     daoFactory.commitTransaction();
                     request.setAttribute("applicationMessage", applicationMessage);
                     request.setAttribute("loggedOn", !cambiamenti);
                     request.setAttribute("email", loggedUser.getMail());
                     request.setAttribute("success", true);
+                }else if(pswdError){
+                    request.setAttribute("viewUrl", "profiloUtenteEdit");
+                    request.setAttribute("loggedUser", loggedUser);
+                    request.setAttribute("utente", user);
+                    request.setAttribute("applicationMessage", "Password attuale inserita in modo errato");
+                    request.setAttribute("loggedOn", !cambiamenti);
                 }else{
                     request.setAttribute("applicationMessage", applicationMessage);
                     request.setAttribute("loggedOn", loggedUser!=null);

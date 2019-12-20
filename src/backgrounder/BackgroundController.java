@@ -16,7 +16,6 @@ import services.config.Configuration;
 public class BackgroundController implements ServletContextListener {
     
     private ScheduledExecutorService scheduler;
-    private String nowreaded = "";
     private TempReader tempReader = new TempReader();
     public static Variabili var = new Variabili();
 
