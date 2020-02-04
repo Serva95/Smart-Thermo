@@ -49,8 +49,6 @@ public class TempReader {
                 }
             }
         }
-
         return var;
     }
-
 }

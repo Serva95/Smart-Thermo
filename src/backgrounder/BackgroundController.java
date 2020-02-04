@@ -2,6 +2,8 @@ package backgrounder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.*;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -22,7 +24,7 @@ public class BackgroundController implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        //scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
+        scheduler.scheduleAtFixedRate(new SomeDailyJob(), 0, 1, TimeUnit.DAYS);
         //scheduler.scheduleAtFixedRate(new SomeHourlyJob(), 0, 1, TimeUnit.HOURS);
         
         scheduler.scheduleAtFixedRate(new SomeQuarterlyJob(), 0, 15, TimeUnit.MINUTES);
@@ -34,14 +36,36 @@ public class BackgroundController implements ServletContextListener {
         scheduler.shutdownNow();
     }
     
-    /*public class SomeDailyJob implements Runnable {
+    public class SomeDailyJob implements Runnable {
         @Override
         public void run() {
-            // Do your daily job here.
+            DAOFactory daoFactory = null;
+            try{
+                daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
+                daoFactory.beginTransaction();
+                BackgroundDAO backdao = daoFactory.getBackgroundDao();
+                LocalDate dayToMedify = LocalDate.now().minusDays(5);
+                backdao.medify(dayToMedify);
+                daoFactory.commitTransaction();
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    if (daoFactory != null) {
+                        daoFactory.rollbackTransaction();
+                    }
+                } catch (Throwable t) {}
+                throw new RuntimeException(e);
+            } finally {
+                try {
+                    if (daoFactory != null) {
+                        daoFactory.closeTransaction();
+                    }
+                } catch (Throwable t) {}
+            }
         }
     }
     
-    public class SomeHourlyJob implements Runnable {
+    /*public class SomeHourlyJob implements Runnable {
         @Override
         public void run() {
             // Do your hourly job here.
