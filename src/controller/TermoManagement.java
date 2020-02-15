@@ -96,6 +96,10 @@ public class TermoManagement {
             UtenteDAO utenteDAO = daoFactory.getUserDAO();
             user = utenteDAO.findByUsername(loggedUser.getUsername());
             if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            /*messo prima per gestire il blocco catch con errori di form input*/
+            request.setAttribute("loggedOn",user!=null);
+            request.setAttribute("loggedUser", user);
+
             String name = request.getParameter("name");
             double maxTemp = Double.parseDouble(request.getParameter("tempMax"));
             double minTemp = Double.parseDouble(request.getParameter("tempMin"));
@@ -121,17 +125,17 @@ public class TermoManagement {
                 timeOffTre = null;
             }
 
-            /**fare controlli sui dati ricevuti e inserimento a db*/
+            /**fare controlli sui dati ricevuti e fare inserimento a db*/
 
             daoFactory.commitTransaction();
             request.setAttribute("appMessage", "meds");
-            request.setAttribute("loggedOn",user!=null);
-            request.setAttribute("loggedUser", user);
             request.setAttribute("viewUrl", "actualtemp");
         } catch (Exception e) {
             try {
                 if (daoFactory != null) {
                     daoFactory.rollbackTransaction();
+                    request.setAttribute("appMessage", "meds");
+                    request.setAttribute("viewUrl", "actualtemp");
                 }
             } catch (Throwable t) {}
             throw new RuntimeException(e);
