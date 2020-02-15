@@ -20,6 +20,13 @@ public class Stanza {
         this.id = id;
     }
 
+    public Stanza(String name, double maxTemp, double minTemp, double absoluteMin){
+        this.nome = name;
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
+        this.absoluteMin = absoluteMin;
+    }
+
     public String getNome() { return nome; }
 
     public void setNome(String name) { this.nome = name; }

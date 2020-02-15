@@ -6,6 +6,7 @@
   boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
   LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
   Stanza[] stanza = (Stanza[]) request.getAttribute("stanza");
+  String appMsg = (String) request.getAttribute("appMsg");
   int size = 0;
   if(stanza!=null) size = stanza.length;
 %>
@@ -33,6 +34,11 @@
                             <h3>Qui puoi gestire le tue stanze </h3>
                             <hr>
                             <div class="row uniform 50%">
+                                <%if(appMsg != null && appMsg.length()>1){ %>
+                                <div class="12u 12u(mobilep)">
+                                    <h3 style="color: red"><%out.print(appMsg); %></h3>
+                                </div>
+                                <%} %>
                                 <div class="4u 12u(mobilep)">
                                     <h3>Le tue stanze</h3>
                                 </div>

@@ -21,7 +21,7 @@
                 <section class="box">
                     <h3>Registrazione Nuova Stanza</h3>
                     <form method="post" action="Connector" autocomplete="on" name="confirm">
-                        <input type="hidden" name="ca" value="ThermoManagement.insert"/>
+                        <input type="hidden" name="ca" value="TermoManagement.insert"/>
                         <div class="row uniform 50%">
                             <div class="6u 12u(mobilep)">
                                 <h3>Nome della stanza</h3>

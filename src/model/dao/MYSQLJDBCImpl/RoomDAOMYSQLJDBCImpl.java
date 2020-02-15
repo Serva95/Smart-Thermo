@@ -31,7 +31,7 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
             ps.setString(i++, stanza.getNome());
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    throw new DuplicatedObjectException("RoomDAOJDBCImpl.insert: Tentativo di inserimento di una stanza già esistente.");
+                    throw new DuplicatedObjectException("Tentativo di inserimento di una stanza già esistente");
                 }
             }
 

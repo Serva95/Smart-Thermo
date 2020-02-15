@@ -3,13 +3,10 @@ package model.dao.MYSQLJDBCImpl;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
-import model.dao.BackgroundDAO;
+
+import model.dao.*;
 
 import services.config.Configuration;
-
-import model.dao.DAOFactory;
-import model.dao.TempsDAO;
-import model.dao.UtenteDAO;
 
 public class MySQLJDBCDAOFactory extends DAOFactory {
     
@@ -67,5 +64,8 @@ public class MySQLJDBCDAOFactory extends DAOFactory {
     public TempsDAO getTempsDao(){
         return new TempsDAOMYSQLJDBCImpl(connection);
     }
-    
+
+    @Override
+    public RoomDAO getRoomDao() { return new RoomDAOMYSQLJDBCImpl(connection); }
+
 }
