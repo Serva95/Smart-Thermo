@@ -1,5 +1,6 @@
 package controller;
 
+import backgrounder.BackgroundController;
 import backgrounder.Variabili;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,10 +20,8 @@ import model.session.mo.LoggedUser;
 import model.session.dao.SessionDAOFactory;
 import model.session.dao.LoggedUserDAO;
 
-import static backgrounder.BackgroundController.var;
-
 public class HomeManagement {
-    
+
     private HomeManagement() {}
     
     public static void view(HttpServletRequest request, HttpServletResponse response) {
@@ -133,9 +132,10 @@ public class HomeManagement {
         try {
             sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
             sessionDAOFactory.initSession(request, response);
-            var = tempReader.getRead(var);
-            String total = var.getActualtemp() + "&deg; <b>HUM:</b> " + var.getActualhum() + "&percnt; - AT "
-                    + var.getLettura().getReadingdatetime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            Variabili bg = BackgroundController.var;
+            bg = tempReader.getRead(bg);
+            String total = bg.getActualtemp() + "&deg; <b>HUM:</b> " + bg.getActualhum() + "&percnt; - AT "
+                    + bg.getLettura().getReadingdatetime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             try (PrintWriter out = response.getWriter()) {
                 out.println(total);
                 out.flush();

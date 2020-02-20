@@ -336,6 +336,38 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
         return sessioni;
     }
 
+    @Override
+    public void deleteSession(String codice, Utente user) {
+        PreparedStatement ps;
+        boolean exist = false;
+        try {
+            String sql;
+            int i = 1;
+            sql     = " SELECT hash "
+                    + " FROM loggeduser "
+                    + " WHERE "
+                    + " hash = ? "
+                    + " AND codice = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(i++, codice);
+            ps.setLong(i++, user.getCodice());
+            try (ResultSet resultSet = ps.executeQuery()) {
+                exist = resultSet.next();
+            }
+            if (exist){
+                sql     = "DELETE FROM loggeduser" +
+                        " WHERE hash = ?";
+                ps = conn.prepareStatement(sql);
+                i = 1;
+                ps.setString(i++, codice);
+                ps.executeUpdate();
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     Utente read (ResultSet rs){
         
         Utente user = new Utente();

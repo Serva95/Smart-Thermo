@@ -6,7 +6,6 @@ import model.dao.RoomDAO;
 import model.dao.TempsDAO;
 import model.dao.UtenteDAO;
 import model.dao.exception.InputFormatException;
-import model.mo.Lettura;
 import model.mo.Stanza;
 import model.mo.Utente;
 import model.session.dao.LoggedUserDAO;
@@ -16,7 +15,6 @@ import model.session.mo.LoggedUser;
 import services.config.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
@@ -129,7 +127,7 @@ public class TermoManagement {
             }
             stanza.setTurnOnTimes(accensioni);
             stanza.setTurnOffTimes(spegnimenti);
-            /**fare controlli sui dati ricevuti e fare inserimento a db*/
+            /*fare controlli sui dati ricevuti e fare inserimento a db*/
             roomDAO.insert(stanza);
             daoFactory.commitTransaction();
             request.setAttribute("loggedOn",loggedUser!=null);

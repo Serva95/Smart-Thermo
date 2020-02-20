@@ -19,6 +19,7 @@ public class UtenteManagement {
 
     private UtenteManagement(){}
 
+    /**pagina personale dell'utente con i dati del profilo e le sessioni dei suoi dispositivi*/
     public static void profileView(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
@@ -59,6 +60,7 @@ public class UtenteManagement {
         }
     }
 
+    /**ancora da fare - non fa nulla ora*/
     public static void profileEdit(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
@@ -97,6 +99,7 @@ public class UtenteManagement {
         }
     }
 
+    /**aggiorna i dati dell'utente*/
     public static void update(HttpServletRequest request, HttpServletResponse response){
 
         SessionDAOFactory sessionDAOFactory;
@@ -198,4 +201,52 @@ public class UtenteManagement {
         }
     }
 
+    /**elimina una sessione esistente a DB - l'utente dovrà rifare il login*/
+    public static void deleteSession(HttpServletRequest request, HttpServletResponse response){
+        SessionDAOFactory sessionDAOFactory;
+        LoggedUser loggedUser;
+        DAOFactory daoFactory = null;
+        Utente user;
+        try {
+            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
+            sessionDAOFactory.initSession(request, response);
+            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
+            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
+            daoFactory.beginTransaction();
+            loggedUser = loggedUserDAO.find();
+            loggedUser.setUniqid(loggedUserDAO.identify());
+            UtenteDAO utenteDAO = daoFactory.getUserDAO();
+            user = utenteDAO.findByUsername(loggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            String codice = request.getParameter("codice");
+            utenteDAO.deleteSession(codice, user);
+            if(codice.equalsIgnoreCase(loggedUser.getUniqid())){
+                loggedUserDAO.destroy();
+                request.setAttribute("viewUrl", "home");
+                request.setAttribute("loggedOn",false);
+                request.setAttribute("loggedUser", null);
+            }else{
+                Sessione sessioni[] = utenteDAO.findAllSessions(loggedUser);
+                request.setAttribute("sessioni", sessioni);
+                request.setAttribute("viewUrl", "profiloUtente");
+                request.setAttribute("loggedUser", loggedUser);
+                request.setAttribute("utente", user);
+                request.setAttribute("loggedOn", loggedUser!=null);
+            }
+            daoFactory.commitTransaction();
+        } catch (Exception e) {
+            try {
+                if (daoFactory != null) {
+                    daoFactory.rollbackTransaction();
+                }
+            } catch (Throwable t) { }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (daoFactory != null) {
+                    daoFactory.closeTransaction();
+                }
+            } catch (Throwable t) { }
+        }
+    }
 }

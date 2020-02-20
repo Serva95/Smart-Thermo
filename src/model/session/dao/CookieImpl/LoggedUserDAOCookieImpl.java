@@ -5,7 +5,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
-
 import model.session.mo.LoggedUser;
 import model.session.dao.LoggedUserDAO;
 
@@ -77,9 +76,9 @@ public class LoggedUserDAOCookieImpl implements LoggedUserDAO {
         Cookie[] cookies = request.getCookies();
         String uniqid = "";
         if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("uniqid")) {
-                    uniqid = cookies[i].getValue();
+            for(Cookie cookie : cookies){
+                if (cookie.getName().equals("uniqid")) {
+                    uniqid = cookie.getValue();
                 }
             }
         }

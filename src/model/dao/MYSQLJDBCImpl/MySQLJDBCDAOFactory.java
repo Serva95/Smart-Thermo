@@ -3,9 +3,7 @@ package model.dao.MYSQLJDBCImpl;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import model.dao.*;
-
 import services.config.Configuration;
 
 public class MySQLJDBCDAOFactory extends DAOFactory {
