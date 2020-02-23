@@ -24,8 +24,13 @@ public class Connector extends HttpServlet {
             
             String livesearch = request.getParameter("livesearch");
             if(livesearch!=null){
-                String controllerAction="HomeManagement."+livesearch.split(",")[0];
-                
+                String controllerAction;
+                String customClass = request.getParameter("customClass");
+                if(customClass!=null && customClass.equalsIgnoreCase("UtenteManagement")){
+                    controllerAction = "UtenteManagement." + livesearch.split(",")[0];
+                }else {
+                    controllerAction = "HomeManagement." + livesearch.split(",")[0];
+                }
                 String[] splittedAction=controllerAction.split("\\.");
                 Class<?> controllerClass=Class.forName("controller."+splittedAction[0]);
                 Method controllerMethod=controllerClass.getMethod(splittedAction[1],HttpServletRequest.class,HttpServletResponse.class);
@@ -61,11 +66,9 @@ public class Connector extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace(out);
             throw new ServerException("Dispacther Servlet Error",e);
-            
         } finally {
             out.close();
         }
-        
     }
     
     @Override

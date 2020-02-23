@@ -11,7 +11,8 @@ import model.session.mo.LoggedUser;
 import services.config.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import static controller.PasswordHash.passwordHashPBKDF2;
 import static controller.PasswordHash.passwordVerifyPBKDF2;
 
@@ -219,7 +220,22 @@ public class UtenteManagement {
             user = utenteDAO.findByUsername(loggedUser.getUsername());
             if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             String codice = request.getParameter("codice");
-            utenteDAO.deleteSession(codice, user);
+            boolean isJS = "yes".equalsIgnoreCase(request.getParameter("js"));
+            boolean deleteStatus = utenteDAO.deleteSession(codice, user);
+            if(isJS) {
+                try (PrintWriter out = response.getWriter()) {
+                    if(deleteStatus) {
+                        out.println("<div class=\"3u 12u(mobilep)\">" +
+                                "<h4>Sessione rimossa</h4>" +
+                                "</div>");
+                    }else{
+                        out.println("Error, reload the page and try again");
+                    }
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if(codice.equalsIgnoreCase(loggedUser.getUniqid())){
                 loggedUserDAO.destroy();
                 request.setAttribute("viewUrl", "home");

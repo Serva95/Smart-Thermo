@@ -27,5 +27,5 @@ public interface UtenteDAO {
 
     Sessione[] findAllSessions(LoggedUser loggedUser);
 
-    void deleteSession(String codice, Utente user);
+    boolean deleteSession(String codice, Utente user);
 }

@@ -337,8 +337,9 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
     }
 
     @Override
-    public void deleteSession(String codice, Utente user) {
+    public boolean deleteSession(String codice, Utente user) {
         PreparedStatement ps;
+        boolean deleted = false;
         boolean exist = false;
         try {
             String sql;
@@ -362,10 +363,12 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
                 i = 1;
                 ps.setString(i++, codice);
                 ps.executeUpdate();
+                deleted = true;
             }
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return deleted;
     }
 
     Utente read (ResultSet rs){

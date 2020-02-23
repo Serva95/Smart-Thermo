@@ -2054,7 +2054,7 @@ a:hover{
 
 /* Form */
 
-	form {
+	form.margin {
 		margin: 0 0 2em 0;
 	}
 

@@ -2,7 +2,6 @@
             <input type="hidden" name="ca" value="LoginManagement.view"/>     
 </form>
 
-<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/jquery.dropotron.min.js"></script>
 <script src="assets/js/jquery.scrollgress.min.js"></script>
 <script src="assets/js/skel.min.js"></script>
