@@ -5,10 +5,10 @@
 <%
   boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
   LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
-  Stanza[] stanza = (Stanza[]) request.getAttribute("stanza");
+  Stanza[] stanze = (Stanza[]) request.getAttribute("stanze");
   String appMsg = (String) request.getAttribute("appMsg");
   int size = 0;
-  if(stanza!=null) size = stanza.length;
+  if(stanze!=null) size = stanze.length;
 %>
 
 <!DOCTYPE HTML>
@@ -19,7 +19,7 @@
         <title>Gestione Stanze</title>
         <script>
             function elimina(el) {
-                document.deleteStanza.codice.value = el;
+                document.deleteStanza.id.value = el;
                 document.deleteStanza.submit();
             }
         </script>
@@ -56,18 +56,18 @@
                                     <h3>Ancora non &egrave; presente alcuna stanza. Inizia creandone una nuova.</h3>
                                 </div>
                                 <% }else{
-                                    for(int i=0; i<size; i++){ %>
+                                    for(Stanza stanza : stanze){ %>
                                 <div class="6u 12u(mobilep)">
-                                    <h3><b>Nome:</b> <%=stanza[i].getNome()%></h3>
+                                    <h3><b>Nome:</b> <%=stanza.getNome()%></h3>
                                 </div>
                                 <div class="1u 12u(mobilep)">
-                                    <a onclick="elimina(<%=stanza[i].getId()%>)" title="Elimina Stanza"><i class="far fa-trash-alt fa-3x"></i></a>
+                                    <a onclick="elimina(<%=stanza.getId()%>)" title="Elimina Stanza"><i class="far fa-trash-alt fa-3x"></i></a>
                                 </div>
                                 <div class="5u 12u(mobilep)">
-                                    <form name="EditProd" method="post" action="Dispatcher">
-                                        <input type="hidden" name="codProd" value="<%=stanza[i].getId()%>"/>
+                                    <form name="EditStanza" method="post" action="Connector">
+                                        <input type="hidden" name="codProd" value="<%=stanza.getId()%>"/>
                                         <input type="hidden" name="ca" value="TermoManagement.editView"/>
-                                        <input type="submit" value="Modifica <%if(stanza[i].getNome().length()>15){out.println(stanza[i].getNome().substring(0, 15)+"...");}else{out.println(stanza[i].getNome());}%>"/>
+                                        <input type="submit" value="Modifica <%if(stanza.getNome().length()>15){out.println(stanza.getNome().substring(0, 15)+"...");}else{out.println(stanza.getNome());}%>"/>
                                     </form>
                                 </div>
                                 <div class="12u 12u(mobilep)">

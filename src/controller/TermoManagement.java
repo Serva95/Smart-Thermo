@@ -39,10 +39,12 @@ public class TermoManagement {
             loggedUser = loggedUserDAO.find();
             loggedUser.setUniqid(loggedUserDAO.identify());
             UtenteDAO utenteDAO = daoFactory.getUserDAO();
+            RoomDAO roomDAO = daoFactory.getRoomDao();
             user = utenteDAO.findByUsername(loggedUser.getUsername());
             if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
-
+            Stanza[] stanze = roomDAO.findAllRooms();
             daoFactory.commitTransaction();
+            request.setAttribute("stanze",stanze);
             request.setAttribute("loggedOn",loggedUser!=null);
             request.setAttribute("loggedUser", loggedUser);
             request.setAttribute("viewUrl", "gestioneStanze");

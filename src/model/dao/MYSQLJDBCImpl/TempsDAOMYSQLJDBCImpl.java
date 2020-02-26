@@ -105,7 +105,7 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
     }
     
     
-    Lettura readtemps (ResultSet rs){
+    private Lettura readtemps (ResultSet rs){
         Lettura lett = new Lettura();
         try {
             lett.setTemp(rs.getDouble("temp"));
@@ -120,7 +120,7 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
         return lett;
     }
     
-    LocalDateTime readdatetimesql(ResultSet rs){
+    private LocalDateTime readdatetimesql(ResultSet rs){
         LocalDateTime toret = null;
         try {
             if(rs.getString("date") != null){
@@ -132,7 +132,7 @@ public class TempsDAOMYSQLJDBCImpl implements TempsDAO {
         return toret;
     }
     
-    Lettura readmediums (ResultSet rs){
+    private Lettura readmediums (ResultSet rs){
         Lettura lett = new Lettura();
         try {
             lett.setTemp((double)Math.round(rs.getDouble("temp")*100)/100);
