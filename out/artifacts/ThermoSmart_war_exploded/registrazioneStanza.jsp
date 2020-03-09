@@ -1,10 +1,14 @@
 <%@page session="false"%>
 <%@page import="model.session.mo.LoggedUser"%>
+<%@ page import="java.time.DayOfWeek" %>
+<%@ page import="java.time.format.TextStyle" %>
+<%@ page import="java.util.Locale" %>
 
 <%
   boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
   LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
   String appMessage = (String)  request.getAttribute("appMessage");
+  DayOfWeek[] dayOfWeek = DayOfWeek.values();
 %>
 <!DOCTYPE html>
 <html>
@@ -79,32 +83,45 @@
                             <div class="12u 12u(mobilep)">
                                 <h3><b>Orari di accensione/spegnimento</b></h3>
                                 <h3>Ricorda che l'orario di spegnimento deve essere successivo a quello di accensione
-                                    <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti non verrano considerati i dati non corretti</h3>
+                                    <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti verrano scartati i dati non corretti</h3>
+                                <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate</i></h4>
+                            </div>
+                            <% for(int i=0; i<7; i++){%>
+                            <div class="12u 12u(mobilep)">
+                                <%if(i!=6){%>
+                                <h3>Fascie del <%=dayOfWeek[i].getDisplayName(TextStyle.FULL, Locale.ITALIAN)%></h3>
+                                <%}else{%>
+                                <h3>Fascie della <%=dayOfWeek[i].getDisplayName(TextStyle.FULL, Locale.ITALIAN)%></h3>
+                                <%}%>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 1</h4>
-                                <input type="time" name="timeonuno" id="timeOnUno" onkeyup="fone()" onchange="fone()" min="00:00" max="23:59" required/>
+                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno" min="00:00" max="23:59" required/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 1</h4>
-                                <input type="time" name="timeoffuno" id="timeOffUno" onkeyup="fone()" onchange="fone()" min="00:00" max="23:59" required/>
+                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno" min="00:00" max="23:59" required/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 2</h4>
-                                <input type="time" name="timeondue" id="timeOnDue" min="00:00" max="23:59"/>
+                                <input type="time" name="timeondue<%=i%>" id="timeOnDue" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 2</h4>
-                                <input type="time" name="timeoffdue" id="timeOffDue" min="00:00" max="23:59"/>
+                                <input type="time" name="timeoffdue<%=i%>" id="timeOffDue" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 3</h4>
-                                <input type="time" name="timeontre" id="timeOnTre" min="00:00" max="23:59"/>
+                                <input type="time" name="timeontre<%=i%>" id="timeOnTre" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 3</h4>
-                                <input type="time" name="timeofftre" id="timeOffTre" min="00:00" max="23:59"/>
+                                <input type="time" name="timeofftre<%=i%>" id="timeOffTre" min="00:00" max="23:59"/>
                             </div>
+                            <div class="12u 12u(mobilep)">
+                                <hr>
+                            </div>
+                            <%}%>
                         </div>
                         <div class="row uniform">
                             <div class="12u">
@@ -127,15 +144,6 @@
 <script>
     function getElId(element) {
         return document.getElementById(element)
-    }
-    function fone() {
-        var min = getElId("timeOnUno").value;
-        var max = getElId("timeOffUno").value;
-        if (min !== "" && max !== "") {
-            if(min > max){
-                getElId("timeOffUno").value = min;
-            }
-        }
     }
     function isminimum() {
         var max = parseFloat(getElId("tempMax").value);

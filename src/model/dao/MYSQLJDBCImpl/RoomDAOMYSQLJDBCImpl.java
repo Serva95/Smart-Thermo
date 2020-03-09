@@ -5,10 +5,7 @@ import model.dao.exception.DuplicatedObjectException;
 import model.mo.Lettura;
 import model.mo.Stanza;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -35,7 +32,7 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
             ps.setString(i++, stanza.getNome());
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    throw new DuplicatedObjectException("Tentativo di inserimento di una stanza già esistente");
+                    throw new DuplicatedObjectException("Esiste già una stanza con questo nome, provane uno diverso");
                 }
             }
 
@@ -59,23 +56,48 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
             sql     = " INSERT INTO rooms "
                     + "( id, "
                     + "nome,"
-                    + "orarioInizio,"
-                    + "orarioFine,"
                     + "maxTemp,"
                     + "minTemp,"
                     + "absoluteMin )"
-                    + " VALUES (?,?,?,?,?,?,?)";
+                    + " VALUES (?,?,?,?,?)";
 
             ps = conn.prepareStatement(sql);
             i = 1;
             ps.setInt(i++, stanza.getId());
             ps.setString(i++, stanza.getNome());
-            ps.setString(i++, Arrays.toString(stanza.getTurnOnTimes()));
-            ps.setString(i++, Arrays.toString(stanza.getTurnOffTimes()));
             ps.setDouble(i++, stanza.getMaxTemp());
             ps.setDouble(i++, stanza.getMinTemp());
             ps.setDouble(i++, stanza.getAbsoluteMin());
             ps.executeUpdate();
+
+            int day = 0;
+            for(LocalTime[] localTimes : stanza.getTurnOnOffTimes()){
+                int fascia = 1;
+                for(int cnt=0; cnt<6; cnt++){
+                    if(localTimes[cnt]!=null) {
+                        sql = " INSERT INTO orarionoff "
+                                + "( id, "
+                                + "giorno,"
+                                + "fascia,"
+                                + "orarioAccensione,"
+                                + "orarioSpegnimento )"
+                                + " VALUES (?,?,?,?,?)";
+
+                        ps = conn.prepareStatement(sql);
+                        i = 1;
+                        ps.setInt(i++, stanza.getId());
+                        ps.setInt(i++, day);
+                        ps.setInt(i++, fascia);
+                        ps.setTime(i++, Time.valueOf(localTimes[cnt]));
+                        ps.setTime(i++, Time.valueOf(localTimes[cnt+1]));
+                        ps.executeUpdate();
+                        cnt++;
+                        fascia++;
+                    }else cnt++;
+                }
+                day++;
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -133,12 +155,6 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
         } catch (SQLException sqle) {}
         try {
             stanza.setAbsoluteMin(rs.getDouble("absoluteMin"));
-        } catch (SQLException sqle) {}
-        try {
-            stanza.setTurnOnTimes(parse(rs.getString("orarioInizio")));
-        } catch (SQLException sqle) {}
-        try {
-            stanza.setTurnOffTimes(parse(rs.getString("orarioFine")));
         } catch (SQLException sqle) {}
 
         return stanza;

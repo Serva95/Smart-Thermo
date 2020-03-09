@@ -15,6 +15,7 @@ import model.session.mo.LoggedUser;
 import services.config.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Array;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
@@ -109,26 +110,29 @@ public class TermoManagement {
             double minTemp = Double.parseDouble(request.getParameter("tempMin"));
             double absMin = Double.parseDouble(request.getParameter("tempMinAbs"));
             stanza = new Stanza(name, maxTemp, minTemp, absMin);
-            LocalTime[] accensioni = new LocalTime[3];
-            LocalTime[] spegnimenti = new LocalTime[3];
-            accensioni[0] = LocalTime.parse(request.getParameter("timeonuno"));
-            spegnimenti[0] = LocalTime.parse(request.getParameter("timeoffuno"));
-            try {
-                accensioni[1] = LocalTime.parse(request.getParameter("timeondue"));
-                spegnimenti[1] = LocalTime.parse(request.getParameter("timeoffdue"));
-            }catch (DateTimeParseException e){
-                accensioni[1] = null;
-                spegnimenti[1] = null;
+            LocalTime[][] giorniOnOff = new LocalTime[7][];
+            for(int i=0; i<7; i++) {
+                /**sistemare i get parameter*/
+                LocalTime[] onOff = new LocalTime[6];
+                onOff[0] = LocalTime.parse(request.getParameter("timeonuno"));
+                onOff[1] = LocalTime.parse(request.getParameter("timeoffuno"));
+                try {
+                    onOff[2] = LocalTime.parse(request.getParameter("timeondue"));
+                    onOff[3] = LocalTime.parse(request.getParameter("timeoffdue"));
+                } catch (DateTimeParseException e) {
+                    onOff[2] = null;
+                    onOff[3] = null;
+                }
+                try {
+                    onOff[4] = LocalTime.parse(request.getParameter("timeontre"));
+                    onOff[5] = LocalTime.parse(request.getParameter("timeofftre"));
+                } catch (DateTimeParseException e) {
+                    onOff[4] = null;
+                    onOff[5] = null;
+                }
+                giorniOnOff[i] = onOff;
             }
-            try {
-                accensioni[2] = LocalTime.parse(request.getParameter("timeontre"));
-                spegnimenti[2] = LocalTime.parse(request.getParameter("timeofftre"));
-            }catch (DateTimeParseException e){
-                accensioni[2] = null;
-                spegnimenti[2] = null;
-            }
-            stanza.setTurnOnTimes(accensioni);
-            stanza.setTurnOffTimes(spegnimenti);
+            stanza.setTurnOnOffTimes(giorniOnOff);
             /*fare controlli sui dati ricevuti e fare inserimento a db*/
             roomDAO.insert(stanza);
             daoFactory.commitTransaction();

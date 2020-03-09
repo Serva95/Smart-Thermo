@@ -19,7 +19,7 @@
         <title>Gestione Stanze</title>
         <script>
             function elimina(el) {
-                document.deleteStanza.codice.value = el;
+                document.deleteStanza.id.value = el;
                 document.deleteStanza.submit();
             }
         </script>
@@ -64,7 +64,7 @@
                                     <a onclick="elimina(<%=stanza.getId()%>)" title="Elimina Stanza"><i class="far fa-trash-alt fa-3x"></i></a>
                                 </div>
                                 <div class="5u 12u(mobilep)">
-                                    <form name="EditProd" method="post" action="Dispatcher">
+                                    <form name="EditStanza" method="post" action="Connector">
                                         <input type="hidden" name="codProd" value="<%=stanza.getId()%>"/>
                                         <input type="hidden" name="ca" value="TermoManagement.editView"/>
                                         <input type="submit" value="Modifica <%if(stanza.getNome().length()>15){out.println(stanza.getNome().substring(0, 15)+"...");}else{out.println(stanza.getNome());}%>"/>

@@ -10,8 +10,7 @@ public class Stanza {
     private double maxTemp;
     private double minTemp;
     private double absoluteMin;
-    private LocalTime[] turnOnTimes;
-    private LocalTime[] turnOffTimes;
+    private LocalTime[][] turnOnOffTimes;
 
     public Stanza(){}
 
@@ -47,13 +46,9 @@ public class Stanza {
 
     public void setMinTemp(double minTemp) { this.minTemp = minTemp; }
 
-    public LocalTime[] getTurnOnTimes() { return turnOnTimes; }
+    public LocalTime[][] getTurnOnOffTimes() { return turnOnOffTimes; }
 
-    public void setTurnOnTimes(LocalTime[] turnOnTimes) { this.turnOnTimes = turnOnTimes; }
-
-    public LocalTime[] getTurnOffTimes() { return turnOffTimes; }
-
-    public void setTurnOffTimes(LocalTime[] turnOffTimes) { this.turnOffTimes = turnOffTimes; }
+    public void setTurnOnOffTimes(LocalTime[][] turnOnOffTimes) { this.turnOnOffTimes = turnOnOffTimes; }
 
     public double getAbsoluteMin() { return absoluteMin; }
 
