@@ -84,7 +84,7 @@
                                 <h3><b>Orari di accensione/spegnimento</b></h3>
                                 <h3>Ricorda che l'orario di spegnimento deve essere successivo a quello di accensione
                                     <br>Ricorda inoltre che l'orario di spegnimento della fascia 1 deve essere antecedente a quello di accensione della fascia 2 e cos&igrave; via, altrimenti verrano scartati i dati non corretti</h3>
-                                <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate</i></h4>
+                                <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate. Ricorda: se lasci vuota la fascia 2, la fascia 3 non verr&agrave; letta.</i></h4>
                             </div>
                             <% for(int i=0; i<7; i++){%>
                             <div class="12u 12u(mobilep)">
@@ -96,11 +96,11 @@
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 1</h4>
-                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno" min="00:00" max="23:59" required/>
+                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno" min="00:00" max="23:59" required value="00:00"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 1</h4>
-                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno" min="00:00" max="23:59" required/>
+                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno" min="00:00" max="23:59" required value="00:00"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 2</h4>

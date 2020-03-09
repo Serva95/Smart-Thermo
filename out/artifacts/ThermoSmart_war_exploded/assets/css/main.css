@@ -2153,7 +2153,8 @@ a:hover{
 	input[type="email"],
 	input[type="date"],
 	input[type="tel"],
-        input[type="number"],
+	input[type="number"],
+	input[type="time"],
 	select {
 		height: 3em;
 	}

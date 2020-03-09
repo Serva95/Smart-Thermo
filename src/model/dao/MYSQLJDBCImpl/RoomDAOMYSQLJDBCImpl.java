@@ -76,7 +76,7 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
                 for(int cnt=0; cnt<6; cnt++){
                     if(localTimes[cnt]!=null) {
                         sql = " INSERT INTO orarionoff "
-                                + "( id, "
+                                + "( roomID, "
                                 + "giorno,"
                                 + "fascia,"
                                 + "orarioAccensione,"
