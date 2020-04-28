@@ -14,7 +14,7 @@ public class MySQLJDBCDAOFactory extends DAOFactory {
     public void beginTransaction() {
         try {
             Class.forName(Configuration.DATABASE_DRIVER);
-            this.connection = DriverManager.getConnection(Configuration.DATABASE_URL);
+            this.connection = DriverManager.getConnection(Configuration.DATABASE_URL, Configuration.USERNAME, Configuration.PASSWORD_DB);
             this.connection.setAutoCommit(false);
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);

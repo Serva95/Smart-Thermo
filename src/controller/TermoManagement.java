@@ -169,4 +169,47 @@ public class TermoManagement {
         }
     }
 
+    public static void viewRoom(HttpServletRequest request, HttpServletResponse response) {
+        SessionDAOFactory sessionDAOFactory;
+        LoggedUser loggedUser;
+        Utente user;
+        DAOFactory daoFactory = null;
+        Variabili var = new Variabili();
+        try {
+            daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);
+            daoFactory.beginTransaction();
+            TempsDAO tempsdao = daoFactory.getTempsDao();
+            sessionDAOFactory = SessionDAOFactory.getSesssionDAOFactory(Configuration.SESSION_IMPL);
+            sessionDAOFactory.initSession(request, response);
+            LoggedUserDAO loggedUserDAO = sessionDAOFactory.getLoggedUserDAO();
+            loggedUser = loggedUserDAO.find();
+            loggedUser.setUniqid(loggedUserDAO.identify());
+            UtenteDAO utenteDAO = daoFactory.getUserDAO();
+            RoomDAO roomDAO = daoFactory.getRoomDao();
+            user = utenteDAO.findByUsername(loggedUser.getUsername());
+            if(!utenteDAO.findLoginSession(user.getCodice(),loggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            int roomID = Integer.parseInt(request.getParameter("id"));
+            Stanza stanza = roomDAO.findRoom(roomID);
+            daoFactory.commitTransaction();
+            request.setAttribute("stanza", stanza);
+            request.setAttribute("loggedOn",loggedUser!=null);
+            request.setAttribute("loggedUser", loggedUser);
+            request.setAttribute("viewUrl", "stanza");
+        } catch (Exception e) {
+            //logger.log(Level.SEVERE, "Controller Error", e);
+            try {
+                if (daoFactory != null) {
+                    daoFactory.rollbackTransaction();
+                }
+            } catch (Throwable t) {}
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (daoFactory != null) {
+                    daoFactory.closeTransaction();
+                }
+            } catch (Throwable t) {}
+        }
+    }
+
 }

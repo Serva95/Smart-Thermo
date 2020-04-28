@@ -121,7 +121,7 @@ public class UtenteDAOMYSQLJDBCImpl implements UtenteDAO {
             ps.setString(i++, user.getUsername());
             ps.setString(i++, user.getPassword());
             ps.setInt(i++, 0);
-            ps.setLong(i++, user.getCodice());
+            ps.setLong(i, user.getCodice());
             ps.executeUpdate();
         }catch (SQLException e) {
             throw new RuntimeException(e);

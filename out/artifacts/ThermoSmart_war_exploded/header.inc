@@ -21,9 +21,9 @@
             <li>
                 <a href="#" class="icon fa-angle-down">Benvenuto <%=loggedUser.getUsername()%>!</a>
                 <ul>
-                    <li><a href="javascript:getTemp.submit()">Vedi dati Temperatura</a></li>
-                    <li><a href="javascript:termostato.submit()">Pagina Termostato</a></li>
-                    <li><a href="javascript:profileView.submit()">Profilo</a><li/>
+                    <li><a href="Connector?ca=HomeManagement.gettempview">Vedi dati Temperatura</a></li>
+                    <li><a href="Connector?ca=TermoManagement.view">Pagina Termostato</a></li>
+                    <li><a href="Connector?ca=UtenteManagement.profileView">Profilo</a><li/>
                     <li><a href="javascript:logoutForm.submit()">Logout</a></li>
                 </ul>
             </li>

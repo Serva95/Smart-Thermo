@@ -43,7 +43,7 @@
                                     <h3>Le tue stanze</h3>
                                 </div>
                                 <div class="4u 12u(mobilep)">
-                                    <a class="button" href="javascript:nuovaStanza.submit()">Crea una nuova stanza</a>
+                                    <a class="button" href="Connector?ca=TermoManagement.insertNewView">Crea una nuova stanza</a>
                                 </div>
                                 <div class="4u 12u(mobilep)">
                                     <a href='/Connector' class="button special" >Clicca qui per tornare alla home</a>
@@ -58,7 +58,7 @@
                                 <% }else{
                                     for(Stanza stanza : stanze){ %>
                                 <div class="6u 12u(mobilep)">
-                                    <h3><b>Nome:</b> <%=stanza.getNome()%></h3>
+                                    <a href="Connector?ca=TermoManagement.viewRoom&id=<%=stanza.getId()%>"><h3><b>Stanza:</b> <%=stanza.getNome()%></h3></a>
                                 </div>
                                 <div class="1u 12u(mobilep)">
                                     <a onclick="elimina(<%=stanza.getId()%>)" title="Elimina Stanza"><i class="far fa-trash-alt fa-3x"></i></a>

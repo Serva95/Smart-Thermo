@@ -13,4 +13,6 @@ public interface RoomDAO {
 
     Stanza[] findAllRooms();
 
+    Stanza findRoom(int roomId);
+
 }

@@ -139,6 +139,37 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
         return stanze;
     }
 
+    @Override
+    public Stanza findRoom(int roomId) {
+        PreparedStatement ps;
+        Stanza stanza = new Stanza();
+        try {
+            String sql = "SELECT * FROM rooms where id = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, roomId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    stanza = readStanza(rs);
+                }
+            }
+
+            sql = "SELECT * FROM orarionoff where RoomID = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, roomId);
+            try (ResultSet rs = ps.executeQuery()) {
+                stanza.setTurnOnOffTimes(readOrari(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return stanza;
+    }
+
     private Stanza readStanza (ResultSet rs){
         Stanza stanza = new Stanza();
         try {
@@ -158,6 +189,43 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
         } catch (SQLException sqle) {}
 
         return stanza;
+    }
+
+    private LocalTime[][] readOrari (ResultSet rs){
+        LocalTime[][] orariOnOff = new LocalTime[7][];
+        try {
+            for(int i=0; i<7; i++) {
+                LocalTime[] onOff = new LocalTime[6];
+                int tmp;
+                rs.next();
+                onOff[0] = rs.getTime("orarioAccensione").toLocalTime();
+                onOff[1] = rs.getTime("orarioSpegnimento").toLocalTime();
+                if(!rs.isLast()) {
+                    rs.next();
+                    tmp = rs.getInt("fascia");
+                    if (tmp == 2) {
+                        onOff[2] = rs.getTime("orarioAccensione").toLocalTime();
+                        onOff[3] = rs.getTime("orarioSpegnimento").toLocalTime();
+                        if(!rs.isLast()) {
+                            rs.next();
+                            tmp = rs.getInt("fascia");
+                            if (tmp == 3) {
+                                onOff[4] = rs.getTime("orarioAccensione").toLocalTime();
+                                onOff[5] = rs.getTime("orarioSpegnimento").toLocalTime();
+                            } else {
+                                rs.previous();
+                            }
+                        }
+                    } else {
+                        rs.previous();
+                    }
+                }
+                orariOnOff[i] = onOff;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orariOnOff;
     }
 
     private LocalTime[] parse(String input){

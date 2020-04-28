@@ -18,7 +18,6 @@
         <%@include file="headheader.inc"%>
         <title>Temps of the day</title>
         <script src="assets/js/chartjs-2.8.0/Chart.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
         <div id="page-wrapper">

@@ -25,15 +25,16 @@ public class TempReader {
         }catch (Exception e){}
         if(isbefore) {
             while (done) {
-                Process p;
+                Process p;/*
                 try {
                     p = Runtime.getRuntime().exec(command);
                     BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
                     nowreaded = fromexec.readLine();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
-                }
-                //nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
+                }*/
+
+                nowreaded = ((int)(Math.random() * 7) + 19)+".5 "+((int)(Math.random() * 9) + 45)+".9";
 
                 var.setActualhum(nowreaded.substring(5));
                 var.setActualtemp(nowreaded.substring(0, 4));
