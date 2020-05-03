@@ -19,7 +19,6 @@ public class Variabili {
     private final String turnon = "python turnon.py";
     //private final String[] week = {"lun","mar","mer","gio","ven","sab","dom"};
     private final String[] week = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-    private short reboot;
 
     public Lettura getLettura() { return lettura; }
     public void setLettura(Lettura lettura) { this.lettura = lettura; }
@@ -89,13 +88,6 @@ public class Variabili {
 
     public String[] getWeek() {
         return week;
-    }
-
-    public short getReboot() {
-        return reboot;
-    }
-    public void setReboot(short reboot) {
-        this.reboot = reboot;
     }
     
 }

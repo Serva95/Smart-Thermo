@@ -54,15 +54,15 @@ a:hover{
 
         /* graph */
         
-        .tempgraph {
+        .oneLineGraph {
             position: relative;
-            height:60vh;
+            height:65vh;
             width: 65em;
         }
         
-        .medgraph {
+        .smallGraph {
             position: relative;
-            height:60vh;
+            height:65vh;
             width: 31em;
         }
         .medgraphright {
@@ -73,28 +73,28 @@ a:hover{
             width: 31em;
         }
         @media screen and (max-width: 1680px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 65em;
             }
         }
         @media screen and (max-width: 1280px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 65em;
             }
         }
         @media screen and (max-width: 980px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 90%;
             }
-            .medgraph {
+            .smallGraph {
                 width: 45%;
             }
         }
         @media screen and (max-width: 840px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 90% !important;
             }
-            .medgraph {
+            .smallGraph {
                 width: 90% !important;
             }
             .medgraphright {
@@ -104,10 +104,10 @@ a:hover{
             }
         }
         @media screen and (max-width: 736px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 100% !important;
             }
-            .medgraph {
+            .smallGraph {
                 width: 100% !important;
             }
             .medgraphright {
@@ -115,7 +115,7 @@ a:hover{
             }
         }
         @media screen and (max-width: 480px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 100% !important;
             }
         }

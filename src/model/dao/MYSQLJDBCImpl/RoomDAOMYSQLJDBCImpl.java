@@ -105,13 +105,69 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
     }
 
     @Override
-    public void update(Stanza stanza) {
+    public boolean update(Stanza stanza) {
         PreparedStatement ps;
+        String sql;
+        int i = 1;
+        try {
+            sql     = " UPDATE rooms SET "
+                    + "nome = ?,"
+                    + "maxTemp = ?,"
+                    + "minTemp = ?,"
+                    + "absoluteMin = ? "
+                    + "WHERE id = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(i++, stanza.getNome());
+            ps.setDouble(i++, stanza.getMaxTemp());
+            ps.setDouble(i++, stanza.getMinTemp());
+            ps.setDouble(i++, stanza.getAbsoluteMin());
+            ps.setInt(i, stanza.getId());
+            ps.executeUpdate();
+
+            sql = "DELETE FROM orarionoff WHERE roomID = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, stanza.getId());
+
+            int day = 0;
+            for(LocalTime[] localTimes : stanza.getTurnOnOffTimes()){
+                int fascia = 1;
+                for(int cnt=0; cnt<6; cnt++){
+                    if(localTimes[cnt]!=null) {
+                        sql = " INSERT INTO orarionoff "
+                                + "( roomID, "
+                                + "giorno,"
+                                + "fascia,"
+                                + "orarioAccensione,"
+                                + "orarioSpegnimento )"
+                                + " VALUES (?,?,?,?,?)";
+
+                        ps = conn.prepareStatement(sql);
+                        i = 1;
+                        ps.setInt(i++, stanza.getId());
+                        ps.setInt(i++, day);
+                        ps.setInt(i++, fascia);
+                        ps.setTime(i++, Time.valueOf(localTimes[cnt]));
+                        ps.setTime(i++, Time.valueOf(localTimes[cnt+1]));
+                        ps.executeUpdate();
+                        cnt++;
+                        fascia++;
+                    }else cnt++;
+                }
+                day++;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 
     @Override
-    public void delete(Stanza stanza) {
+    public boolean delete(Stanza stanza) {
         PreparedStatement ps;
+        return false;
     }
 
     @Override
@@ -165,8 +221,6 @@ public class RoomDAOMYSQLJDBCImpl implements RoomDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
         return stanza;
     }
 

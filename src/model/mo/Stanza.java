@@ -14,8 +14,11 @@ public class Stanza {
 
     public Stanza(){}
 
-    public Stanza(String name, int id){
+    public Stanza(String name, double maxTemp, double minTemp, double absoluteMin, int id){
         this.nome = name;
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
+        this.absoluteMin = absoluteMin;
         this.id = id;
     }
 

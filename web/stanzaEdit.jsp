@@ -3,17 +3,21 @@
 <%@ page import="java.time.DayOfWeek" %>
 <%@ page import="java.time.format.TextStyle" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="model.mo.Stanza" %>
+<%@ page import="java.time.LocalTime" %>
 
 <%
-    boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
-    LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
-    String appMessage = (String)  request.getAttribute("appMessage");
-    DayOfWeek[] dayOfWeek = DayOfWeek.values();
+  boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
+  LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
+  String appMessage = (String)  request.getAttribute("appMessage");
+  DayOfWeek[] dayOfWeek = DayOfWeek.values();
+  Stanza stanza = (Stanza) request.getAttribute("stanza");
+    LocalTime[][] orariOnOff = stanza.getTurnOnOffTimes();
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registrazione Stanza</title>
+    <title>Modifica la stanza: <%=stanza.getNome()%></title>
     <%@include file="headheader.inc"%>
 </head>
 <body>
@@ -23,13 +27,14 @@
         <div class="row">
             <div class="12u">
                 <section class="box">
-                    <h3>Registrazione Nuova Stanza</h3>
+                    <h3>Modifica la stanza: <%=stanza.getNome()%></h3>
                     <form method="post" action="Connector" autocomplete="on" name="confirm">
-                        <input type="hidden" name="ca" value="TermoManagement.insert"/>
+                        <input type="hidden" name="ca" value="TermoManagement.update"/>
+                        <input type="hidden" name="id" value="<%=stanza.getId()%>"/>
                         <div class="row uniform 50%">
                             <div class="6u 12u(mobilep)">
                                 <h3>Nome della stanza</h3>
-                                <input type="text" name="name" id="name" placeholder="Nome della stanza" maxlength="45" required pattern="[A-Za-z0-9 ]+" title="Solo lettere o numeri"/>
+                                <input type="text" name="name" id="name" value="<%=stanza.getNome()%>" placeholder="Nome della stanza" maxlength="45" required pattern="[A-Za-z0-9 ]+" title="Solo lettere o numeri"/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <h3><b>Temperature</b></h3>
@@ -38,7 +43,7 @@
                                 <h4>Temperatura Massima (Se la temperatura della stanza supera questo valore il riscaldamento della stessa si bloccher&agrave;) - Deve essere minore di 99&deg;C</h4>
                             </div>
                             <div class="3u 12u(mobilep)">
-                                <input type="number" id="tempMax" placeholder="Massima Temperatura" min="0" max="99" step="0.1" required/>
+                                <input type="number" id="tempMax" value="<%=stanza.getMaxTemp()%>" placeholder="Massima Temperatura" min="0" max="99" step="0.1" required/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <hr>
@@ -47,7 +52,7 @@
                                 <h4>Temperatura Minima (Nei momenti in cui il riscaldamento &egrave; in modalit&agrave; programma, se la temperatura scender&agrave; sotto questo valore, verr&agrave; attivato il riscaldamento per riportarla a tale valore)  - Deve essere minore della temperatura massima, minore di 99&deg;C e maggiore di 10&deg;C</h4>
                             </div>
                             <div class="3u 12u(mobilep)">
-                                <input type="number" id="tempMin" placeholder="Minima Temperatura" min="0" max="99" step="0.1" required/>
+                                <input type="number" id="tempMin" value="<%=stanza.getMinTemp()%>" placeholder="Minima Temperatura" min="0" max="99" step="0.1" required/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <hr>
@@ -56,7 +61,7 @@
                                 <h4>Temperatura Minima Assoluta (Temperatura sotto la quale il sistema &egrave; sempre attivo e riscalda anche se &egrave; impostato su spento. Questo avviene per evitare temperature troppo basse che potrebbero danneggiare le tubature.) - Deve essere minore di 10&deg;C e maggiore di 0&deg;C</h4>
                             </div>
                             <div class="3u 12u(mobilep)">
-                                <input type="number" id="tempMinAbs" placeholder="Minima Temperatura Assoluta" min="0" max="99" step="0.1" required/>
+                                <input type="number" id="tempMinAbs" value="<%=stanza.getAbsoluteMin()%>" placeholder="Minima Temperatura Assoluta" min="0" max="99" step="0.1" required/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <hr>
@@ -101,27 +106,27 @@
                             <%}%>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 1</h4>
-                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno<%=i%>" min="00:00" max="23:59" required value="00:00"/>
+                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno<%=i%>" min="00:00" max="23:59" required value="<%=orariOnOff[i][0]%>"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 1</h4>
-                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno<%=i%>" min="00:00" max="23:59" required value="00:00"/>
+                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno<%=i%>" min="00:00" max="23:59" required value="<%=orariOnOff[i][1]%>"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 2</h4>
-                                <input type="time" name="timeondue<%=i%>" id="timeOnDue<%=i%>" min="00:00" max="23:59"/>
+                                <input type="time" name="timeondue<%=i%>" id="timeOnDue<%=i%>" min="00:00" max="23:59" <%if(orariOnOff[i][2]!=null) out.print("value=\"" +orariOnOff[i][2]+'"');%>/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 2</h4>
-                                <input type="time" name="timeoffdue<%=i%>" id="timeOffDue<%=i%>" min="00:00" max="23:59"/>
+                                <input type="time" name="timeoffdue<%=i%>" id="timeOffDue<%=i%>" min="00:00" max="23:59" <%if(orariOnOff[i][3]!=null) out.print("value=\"" +orariOnOff[i][3]+'"');%>/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 3</h4>
-                                <input type="time" name="timeontre<%=i%>" id="timeOnTre<%=i%>" min="00:00" max="23:59"/>
+                                <input type="time" name="timeontre<%=i%>" id="timeOnTre<%=i%>" min="00:00" max="23:59" <%if(orariOnOff[i][4]!=null) out.print("value=\"" +orariOnOff[i][4]+'"');%>/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 3</h4>
-                                <input type="time" name="timeofftre<%=i%>" id="timeOffTre<%=i%>" min="00:00" max="23:59"/>
+                                <input type="time" name="timeofftre<%=i%>" id="timeOffTre<%=i%>" min="00:00" max="23:59" <%if(orariOnOff[i][5]!=null) out.print("value=\"" +orariOnOff[i][5]+'"');%>/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <hr>
@@ -169,7 +174,7 @@
                 getElId("tempMinConfirm").innerText = min+"\xB0C";
                 getElId("tempMinAbsConfirm").innerText = absmin+"\xB0C";
                 getElId("inviadati").disabled = "";
-                getElId("inviadati").value = "Crea la stanza";
+                getElId("inviadati").value = "Salva le modifiche";
             }
         }
     }

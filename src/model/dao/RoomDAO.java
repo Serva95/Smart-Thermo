@@ -7,9 +7,9 @@ public interface RoomDAO {
 
     Stanza insert(Stanza stanza) throws DuplicatedObjectException;
 
-    void update(Stanza stanza);
+    boolean update(Stanza stanza);
 
-    void delete(Stanza stanza);
+    boolean delete(Stanza stanza);
 
     Stanza[] findAllRooms();
 

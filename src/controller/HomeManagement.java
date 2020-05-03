@@ -22,7 +22,8 @@ import model.session.dao.LoggedUserDAO;
 public class HomeManagement {
 
     private HomeManagement() {}
-    
+
+    /**home page view*/
     public static void view(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser loggedUser;
@@ -64,7 +65,7 @@ public class HomeManagement {
                 out.println(output);
                 out.flush();
             }catch (IOException e){
-                e.printStackTrace();
+                e.getMessage();
             }
             
         daoFactory.commitTransaction();
@@ -84,7 +85,7 @@ public class HomeManagement {
         }
     }
 
-    /**update dynamically all the graphs when "gettempvie" page is loaded*/
+    /**update dynamically all the graphs when "gettempview" page is loaded*/
     public static void updateTemps(HttpServletRequest request, HttpServletResponse response) {
         SessionDAOFactory sessionDAOFactory;
         DAOFactory daoFactory = null;
@@ -149,7 +150,6 @@ public class HomeManagement {
         SessionDAOFactory sessionDAOFactory;
         LoggedUser cookieLoggedUser;
         Utente loggedUser;
-        String uniqid;
         DAOFactory daoFactory = null;
         try {
             daoFactory = DAOFactory.getDAOFactory(Configuration.DAO_IMPL);

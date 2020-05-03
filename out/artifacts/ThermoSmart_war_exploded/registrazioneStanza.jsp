@@ -5,10 +5,10 @@
 <%@ page import="java.util.Locale" %>
 
 <%
-  boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
-  LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
-  String appMessage = (String)  request.getAttribute("appMessage");
-  DayOfWeek[] dayOfWeek = DayOfWeek.values();
+    boolean loggedOn = (Boolean) request.getAttribute("loggedOn");
+    LoggedUser loggedUser = (LoggedUser) request.getAttribute("loggedUser");
+    String appMessage = (String)  request.getAttribute("appMessage");
+    DayOfWeek[] dayOfWeek = DayOfWeek.values();
 %>
 <!DOCTYPE html>
 <html>
@@ -87,36 +87,41 @@
                                 <h4><i>Solo la prima fascia &egrave; obbligatoria, le altre, se lasciate vuote, verranno ignorate. Ricorda: se lasci vuota la fascia 2, la fascia 3 non verr&agrave; letta.</i></h4>
                             </div>
                             <% for(int i=0; i<7; i++){%>
-                            <div class="12u 12u(mobilep)">
+                            <div class="<%if(i!=0){%>6u 6u<%}else{%>12u 12u<%}%>(mobilep)">
                                 <%if(i!=6){%>
                                 <h3>Fascie del <%=dayOfWeek[i].getDisplayName(TextStyle.FULL, Locale.ITALIAN)%></h3>
                                 <%}else{%>
                                 <h3>Fascie della <%=dayOfWeek[i].getDisplayName(TextStyle.FULL, Locale.ITALIAN)%></h3>
                                 <%}%>
                             </div>
+                            <%if(i!=0){%>
+                            <div class="6u 6u(mobilep)">
+                                <a class="button" id="copia" onclick="copia(<%=i%>)">Copia dal luned&igrave;</a>
+                            </div>
+                            <%}%>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 1</h4>
-                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno" min="00:00" max="23:59" required value="00:00"/>
+                                <input type="time" name="timeonuno<%=i%>" id="timeOnUno<%=i%>" min="00:00" max="23:59" required value="00:00"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 1</h4>
-                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno" min="00:00" max="23:59" required value="00:00"/>
+                                <input type="time" name="timeoffuno<%=i%>" id="timeOffUno<%=i%>" min="00:00" max="23:59" required value="00:00"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 2</h4>
-                                <input type="time" name="timeondue<%=i%>" id="timeOnDue" min="00:00" max="23:59"/>
+                                <input type="time" name="timeondue<%=i%>" id="timeOnDue<%=i%>" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 2</h4>
-                                <input type="time" name="timeoffdue<%=i%>" id="timeOffDue" min="00:00" max="23:59"/>
+                                <input type="time" name="timeoffdue<%=i%>" id="timeOffDue<%=i%>" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Accensione Fascia 3</h4>
-                                <input type="time" name="timeontre<%=i%>" id="timeOnTre" min="00:00" max="23:59"/>
+                                <input type="time" name="timeontre<%=i%>" id="timeOnTre<%=i%>" min="00:00" max="23:59"/>
                             </div>
                             <div class="6u 12u(mobilep)">
                                 <h4>Orario Spegnimento Fascia 3</h4>
-                                <input type="time" name="timeofftre<%=i%>" id="timeOffTre" min="00:00" max="23:59"/>
+                                <input type="time" name="timeofftre<%=i%>" id="timeOffTre<%=i%>" min="00:00" max="23:59"/>
                             </div>
                             <div class="12u 12u(mobilep)">
                                 <hr>
@@ -141,7 +146,7 @@
 <form name="annulla" action="Connector" method="post">
     <input type="hidden" name="ca" value="TermoManagement.view"/>
 </form>
-<script>
+<script type="application/javascript">
     function getElId(element) {
         return document.getElementById(element)
     }
@@ -149,9 +154,6 @@
         var max = parseFloat(getElId("tempMax").value);
         var min = parseFloat(getElId("tempMin").value);
         var absmin = parseFloat(getElId("tempMinAbs").value);
-        /*console.log(max);
-        console.log(min);
-        console.log(absmin);*/
         if (!isNaN(min) && !isNaN(absmin) && !isNaN(max)) {
             if(max > 99 || max <= 10 || min > 99 || min <= 10 || absmin <0 || absmin > 10 || max <= min) {
                 /*confermaTemp*/
@@ -170,6 +172,14 @@
                 getElId("inviadati").value = "Crea la stanza";
             }
         }
+    }
+    function copia(sectionID) {
+        $("#timeOnUno"+sectionID).val($("#timeOnUno0").val())
+        $("#timeOffUno"+sectionID).val($("#timeOffUno0").val())
+        $("#timeOnDue"+sectionID).val($("#timeOnDue0").val())
+        $("#timeOffDue"+sectionID).val($("#timeOffDue0").val())
+        $("#timeOnTre"+sectionID).val($("#timeOnTre0").val())
+        $("#timeOffTre"+sectionID).val($("#timeOffTre0").val())
     }
 </script>
 <%@include file="bottomjs.inc"%>
