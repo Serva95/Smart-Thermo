@@ -11,8 +11,13 @@ public class Stanza {
     private double minTemp;
     private double absoluteMin;
     private LocalTime[][] turnOnOffTimes;
+    private Sensore sensor;
 
     public Stanza(){}
+
+    public Stanza(int id) {
+        this.id = id;
+    }
 
     public Stanza(String name, double maxTemp, double minTemp, double absoluteMin, int id){
         this.nome = name;

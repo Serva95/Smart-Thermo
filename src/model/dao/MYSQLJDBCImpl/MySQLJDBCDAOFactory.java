@@ -66,4 +66,7 @@ public class MySQLJDBCDAOFactory extends DAOFactory {
     @Override
     public RoomDAO getRoomDao() { return new RoomDAOMYSQLJDBCImpl(connection); }
 
+    @Override
+    public SensorDAO getSensorDAO() { return new SensorDAOMYSQLJDBCImpl(connection); }
+
 }

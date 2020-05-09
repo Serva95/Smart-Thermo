@@ -12,7 +12,7 @@ public class TempReader {
 
     public TempReader(){}
 
-    private String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
+    private final String command = "/home/pi/Desktop/srvrasp/only_one_temp.py";
     private String nowreaded = "";
 
     public synchronized Variabili getRead(Variabili var){
@@ -24,13 +24,17 @@ public class TempReader {
             isbefore = var.getLettura().getReadingdatetime().isBefore(now);
         }catch (Exception e){}
         if(isbefore) {
-            while (done) {
-                Process p;/*
+            while (done) {/*
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("python3", command);
                 try {
-                    p = Runtime.getRuntime().exec(command);
-                    BufferedReader fromexec = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    nowreaded = fromexec.readLine();
-                } catch (IOException e) {
+                    Process process = processBuilder.start();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    //BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                    nowreaded = reader.readLine();
+                    //while ((errReader.readLine()) != null) { nowreaded += errReader.readLine() ; }
+                    int exitCode = process.waitFor();
+                } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }*/
 

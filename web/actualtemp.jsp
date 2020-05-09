@@ -59,7 +59,7 @@
                             <canvas id="medtempChart"></canvas>
                         </div>
                         <div class="12u 12u(mobilep)"><br></div>
-                        <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
+                        <h3><a href='${pageContext.request.contextPath}/'>Clicca qui per tornare alla home</a></h3>
                     </div>
                 </section>
             </div>

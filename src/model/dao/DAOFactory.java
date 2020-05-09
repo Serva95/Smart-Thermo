@@ -16,7 +16,8 @@ public abstract class DAOFactory {
   public abstract UtenteDAO getUserDAO();
   public abstract BackgroundDAO getBackgroundDao();
   public abstract TempsDAO getTempsDao();
-  public abstract  RoomDAO getRoomDao();
+  public abstract RoomDAO getRoomDao();
+  public abstract SensorDAO getSensorDAO();
 
   public static DAOFactory getDAOFactory(String whichFactory) {
 

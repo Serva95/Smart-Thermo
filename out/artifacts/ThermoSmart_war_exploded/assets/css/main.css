@@ -54,15 +54,15 @@ a:hover{
 
         /* graph */
         
-        .tempgraph {
+        .oneLineGraph {
             position: relative;
             height:65vh;
-            width: 65em;
+            width: 100%;
         }
         
-        .medgraph {
+        .smallGraph {
             position: relative;
-            height:60vh;
+            height:65vh;
             width: 31em;
         }
         .medgraphright {
@@ -72,29 +72,33 @@ a:hover{
             left: 33em;
             width: 31em;
         }
+		@media screen and (max-height: 350px){
+			.oneLineGraph {
+				height:100vh;
+			}
+		}
+		@media screen and (max-height: 500px){
+			.oneLineGraph {
+				height:80vh;
+			}
+		}
         @media screen and (max-width: 1680px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 65em;
             }
         }
         @media screen and (max-width: 1280px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 65em;
             }
         }
         @media screen and (max-width: 980px) {
-            .tempgraph {
-                width: 90%;
-            }
-            .medgraph {
+            .smallGraph {
                 width: 45%;
             }
         }
         @media screen and (max-width: 840px) {
-            .tempgraph {
-                width: 90% !important;
-            }
-            .medgraph {
+            .smallGraph {
                 width: 90% !important;
             }
             .medgraphright {
@@ -102,20 +106,23 @@ a:hover{
                 left: 0;
                 width: 90% !important;
             }
+			.oneLineGraph {
+				width: 100% !important;
+			}
         }
         @media screen and (max-width: 736px) {
-            .tempgraph {
-                width: 100% !important;
-            }
-            .medgraph {
+            .smallGraph {
                 width: 100% !important;
             }
             .medgraphright {
                 width: 100% !important;
             }
+			.oneLineGraph {
+				width: 100% !important;
+			}
         }
         @media screen and (max-width: 480px) {
-            .tempgraph {
+            .oneLineGraph {
                 width: 100% !important;
             }
         }

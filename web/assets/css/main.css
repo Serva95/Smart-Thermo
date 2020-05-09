@@ -57,7 +57,7 @@ a:hover{
         .oneLineGraph {
             position: relative;
             height:65vh;
-            width: 65em;
+            width: 100%;
         }
         
         .smallGraph {
@@ -72,6 +72,16 @@ a:hover{
             left: 33em;
             width: 31em;
         }
+		@media screen and (max-height: 350px){
+			.oneLineGraph {
+				height:100vh;
+			}
+		}
+		@media screen and (max-height: 500px){
+			.oneLineGraph {
+				height:80vh;
+			}
+		}
         @media screen and (max-width: 1680px) {
             .oneLineGraph {
                 width: 65em;
@@ -83,17 +93,11 @@ a:hover{
             }
         }
         @media screen and (max-width: 980px) {
-            .oneLineGraph {
-                width: 90%;
-            }
             .smallGraph {
                 width: 45%;
             }
         }
         @media screen and (max-width: 840px) {
-            .oneLineGraph {
-                width: 90% !important;
-            }
             .smallGraph {
                 width: 90% !important;
             }
@@ -102,17 +106,20 @@ a:hover{
                 left: 0;
                 width: 90% !important;
             }
+			.oneLineGraph {
+				width: 100% !important;
+			}
         }
         @media screen and (max-width: 736px) {
-            .oneLineGraph {
-                width: 100% !important;
-            }
             .smallGraph {
                 width: 100% !important;
             }
             .medgraphright {
                 width: 100% !important;
             }
+			.oneLineGraph {
+				width: 100% !important;
+			}
         }
         @media screen and (max-width: 480px) {
             .oneLineGraph {

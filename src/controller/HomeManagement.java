@@ -162,23 +162,28 @@ public class HomeManagement {
             cookieLoggedUser.setUniqid(loggedUserDAO.identify());
             UtenteDAO utenteDAO = daoFactory.getUserDAO();
             loggedUser = utenteDAO.findByUsername(cookieLoggedUser.getUsername());
-            if(!utenteDAO.findLoginSession(loggedUser.getCodice(),cookieLoggedUser)) throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
+            if (!utenteDAO.findLoginSession(loggedUser.getCodice(), cookieLoggedUser))
+                throw new IllegalAccessException("<h1>You must be logged in to see this data. Go away.</h1>");
             Lettura[] days = tempsdao.Readtoday(LocalDate.now());
             Lettura[] meds = tempsdao.Readmeds(7);
             daoFactory.commitTransaction();
-            
+
             request.setAttribute("days", days);
             request.setAttribute("meds", meds);
-            request.setAttribute("loggedOn",cookieLoggedUser!=null);
+            request.setAttribute("loggedOn", cookieLoggedUser != null);
             request.setAttribute("loggedUser", cookieLoggedUser);
             request.setAttribute("viewUrl", "actualtemp");
-        } catch (Exception e) {
+        }catch (Exception e) {
             try {
                 if (daoFactory != null) {
                     daoFactory.rollbackTransaction();
                 }
             } catch (Throwable t) {}
-            throw new RuntimeException(e);
+            if(e instanceof NullPointerException){
+                throw new RuntimeException("<h1>You must be logged in to see this data. Go away. NullPointerEx</h1>");
+            }else {
+                throw new RuntimeException(e);
+            }
         } finally {
             try {
                 if (daoFactory != null) {

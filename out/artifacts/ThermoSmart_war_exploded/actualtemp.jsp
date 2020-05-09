@@ -30,11 +30,11 @@
                         <div id="ls" class="12u 12u(mobilep)">Loading...</div>
                         <div class="12u 12u(mobilep)"><br></div>
                         <!--<div style="width:30em">-->
-                        <div class="chart-container tempgraph">
+                        <div class="chart-container oneLineGraph">
                             <canvas id="tempChart"></canvas>
                         </div>
                         <div class="12u 12u(mobilep)"><br></div>
-                        <div class="chart-container tempgraph">
+                        <div class="chart-container oneLineGraph">
                             <canvas id="humChart"></canvas>
                         </div>
                         <div class="12u 12u(mobilep)"><hr></div>
@@ -51,15 +51,15 @@
                             </select>
                         </div>
                         <div class="12u 12u(mobilep)"><br></div>
-                        <div class="chart-container tempgraph">
+                        <div class="chart-container oneLineGraph">
                             <canvas id="medhumChart"></canvas>
                         </div>
                         <div class="12u 12u(mobilep)"><br></div>
-                        <div class="chart-container tempgraph">
+                        <div class="chart-container oneLineGraph">
                             <canvas id="medtempChart"></canvas>
                         </div>
                         <div class="12u 12u(mobilep)"><br></div>
-                        <h3><a href='/Connector'>Clicca qui per tornare alla home</a></h3>
+                        <h3><a href='${pageContext.request.contextPath}/'>Clicca qui per tornare alla home</a></h3>
                     </div>
                 </section>
             </div>
