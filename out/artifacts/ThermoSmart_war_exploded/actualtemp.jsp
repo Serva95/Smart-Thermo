@@ -133,7 +133,7 @@
                 },options:{responsive:!0,maintainAspectRatio:!1,aspectRatio:1,scales: {yAxes: [{ticks: { beginAtZero:!1}}]}}
             });
 
-            var labelsin = [<%for(Lettura outmedrd : meds){out.print("'" + outmedrd.getReadingdatetime().toLocalDate().toString() + "'" + ",");}%>];
+            var labelsin = [<%for(Lettura outmedrd : meds){out.print("'" + outmedrd.getReadingDate().toString() + "'" + ",");}%>];
             var medtmpsin = [<%for(Lettura outmedrd : meds){out.print(String.valueOf(outmedrd.getTemp()) + ",");}%>];
             var medhumsin = [<%for(Lettura outmedrd : meds){out.print(String.valueOf(outmedrd.getHum()) + ",");}%>];
             var ctmedh = document.getElementById("medhumChart").getContext("2d");
@@ -167,9 +167,10 @@
                         for(i=0; i<valueNumber; i++) {
                             medhumChart.data.labels.pop();
                             medhumChart.data.datasets[0].data.pop();
+
+                            medtempChart.data.labels.pop();
+                            medtempChart.data.datasets[0].data.pop();
                         }
-                        medtempChart.data.labels.pop();
-                        medtempChart.data.datasets[0].data.pop();
 
                         for(i=0; i<numberOfValues; i++) {
                             var tmpN = dates.search(",");

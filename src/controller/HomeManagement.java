@@ -55,7 +55,7 @@ public class HomeManagement {
             int number_of_reads = Integer.parseInt(request.getParameter("number"));
             Lettura[] meds = tempsdao.Readmeds(number_of_reads);
             StringBuilder output= new StringBuilder();
-            for(Lettura outmedrd : meds) output.append(outmedrd.getReadingdatetime().toLocalDate().toString()).append(",");
+            for(Lettura outmedrd : meds) output.append(outmedrd.getReadingDate().toString()).append(",");
             output.append("#");
             for(Lettura outmedrd : meds) output.append(outmedrd.getTemp()).append(",");
             output.append("#");

@@ -82,7 +82,7 @@ a:hover{
 				height:80vh;
 			}
 		}
-        @media screen and (max-width: 1680px) {
+        /*@media screen and (max-width: 1680px) {
             .oneLineGraph {
                 width: 65em;
             }
@@ -91,7 +91,7 @@ a:hover{
             .oneLineGraph {
                 width: 65em;
             }
-        }
+        }*/
         @media screen and (max-width: 980px) {
             .smallGraph {
                 width: 45%;
